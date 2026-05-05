@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
+/**
+ * Hook to manage background music playback.
+ * Handles state synchronization and automatic pausing when the app is hidden.
+ */
 export function useMusic(src: string) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -13,22 +17,39 @@ export function useMusic(src: string) {
       audio.loop = true;
       audio.volume = 0.4;
       audioRef.current = audio;
-    }
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = "";
+      // Sync state when audio actually starts playing
+      const handlePlay = () => setIsPlaying(true);
+      // Sync state when audio is paused (by user or system/browser)
+      const handlePause = () => setIsPlaying(false);
+
+      audio.addEventListener("play", handlePlay);
+      audio.addEventListener("pause", handlePause);
+
+      // Handle visibility change (lock screen, switch app)
+      const handleVisibilityChange = () => {
+        if (document.hidden && audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+        }
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      return () => {
+        audio.removeEventListener("play", handlePlay);
+        audio.removeEventListener("pause", handlePause);
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        
+        audio.pause();
+        audio.src = "";
         audioRef.current = null;
-      }
-    };
+      };
+    }
   }, [src]);
 
   const play = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((err) => {
+      audioRef.current.play().catch((err) => {
         console.log("Autoplay blocked or error:", err);
       });
     }
@@ -37,7 +58,6 @@ export function useMusic(src: string) {
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
-      setIsPlaying(false);
     }
   }, []);
 
@@ -51,3 +71,4 @@ export function useMusic(src: string) {
 
   return { isPlaying, toggle, play, pause };
 }
+
