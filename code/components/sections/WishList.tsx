@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getWishes, WishData } from '@/lib/firebase/services';
 
-export default function WishList() {
+export default function WishList({ guestName }: { guestName?: string }) {
   const [wishes, setWishes] = useState<WishData[]>([]);
   const [loading, setLoading] = useState(true);
 

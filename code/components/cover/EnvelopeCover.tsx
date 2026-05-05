@@ -7,9 +7,10 @@ import { BRIDE, GROOM } from "@/lib/constants/wedding-data";
 
 interface EnvelopeCoverProps {
   readonly onOpen: () => void;
+  readonly guestName?: string;
 }
 
-export default function EnvelopeCover({ onOpen }: EnvelopeCoverProps) {
+export default function EnvelopeCover({ onOpen, guestName }: EnvelopeCoverProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -57,6 +58,17 @@ export default function EnvelopeCover({ onOpen }: EnvelopeCoverProps) {
               <h1 className="text-white text-3xl sm:text-4xl font-serif tracking-[0.3em] uppercase mb-4">
                 Thiệp Mời
               </h1>
+              {guestName && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="mb-4"
+                >
+                  <p className="text-white/60 text-xs tracking-widest uppercase mb-1">Thân mời</p>
+                  <p className="text-white text-xl sm:text-2xl font-serif italic">{guestName}</p>
+                </motion.div>
+              )}
               <div className="h-px w-20 bg-white/50 mx-auto mb-6"></div>
               <p className="text-white/80 text-2xl sm:text-3xl font-script mb-10">
                 {BRIDE.name} & {GROOM.name}

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { Gift } from "lucide-react";
 import EnvelopeCover from "@/components/cover/EnvelopeCover";
 import HeroSection from "@/components/sections/HeroSection";
@@ -24,8 +25,19 @@ interface WeddingPageProps {
 }
 
 export default function WeddingPage({ side }: WeddingPageProps) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#7B171B]" />}>
+      <WeddingPageContent side={side} />
+    </Suspense>
+  );
+}
+
+function WeddingPageContent({ side }: WeddingPageProps) {
   const [isOpened, setIsOpened] = useState(false);
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  
+  const searchParams = useSearchParams();
+  const guestName = searchParams.get('to') || undefined;
   
   const { isPlaying, toggle, play } = useMusic("/audio/song.m4a");
 
@@ -47,7 +59,7 @@ export default function WeddingPage({ side }: WeddingPageProps) {
 
   return (
     <main className="min-h-screen bg-white">
-      <EnvelopeCover onOpen={handleOpenEnvelope} />
+      <EnvelopeCover onOpen={handleOpenEnvelope} guestName={guestName} />
 
       <AnimatePresence>
         {isOpened && (
@@ -56,15 +68,15 @@ export default function WeddingPage({ side }: WeddingPageProps) {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <HeroSection side={side} />
+            <HeroSection side={side} guestName={guestName} />
             <FamilySection />
             <EventSection side={side} />
             <CalendarSection side={side} />
             <CountdownSection side={side} />
             <GallerySection />
-            <WishList />
+            <WishList guestName={guestName} />
             <MapSection side={side} />
-            <RSVPSection />
+            <RSVPSection guestName={guestName} />
             <FooterSection />
 
             <MusicPlayer isPlaying={isPlaying} toggle={toggle} />

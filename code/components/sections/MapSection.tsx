@@ -1,6 +1,6 @@
 'use client';
 
-/// Section bản đồ địa điểm — Tối ưu cho Mobile & Typo sang trọng.
+/// Section bản đồ địa điểm — Thiết kế tràn viền (Full-width) cho Mobile.
 import { motion } from 'framer-motion';
 import { MapPin, Navigation } from 'lucide-react';
 import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
@@ -10,13 +10,13 @@ export default function MapSection({ side }: { side: WeddingSide }) {
 
   return (
     <section
-      className="py-20 px-4 sm:px-6 overflow-hidden"
+      className="py-16 sm:py-24"
       style={{ background: 'linear-gradient(180deg, #FDF8F0 0%, white 100%)' }}
     >
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
+        {/* Header - Giữ padding để text không sát lề quá */}
         <motion.div
-          className="text-center mb-10"
+          className="text-center mb-10 px-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -33,29 +33,29 @@ export default function MapSection({ side }: { side: WeddingSide }) {
           </p>
           
           <h2
-            className="text-3xl sm:text-5xl mb-4 px-4 leading-[1.2] text-balance mx-auto max-w-[320px] sm:max-w-none"
+            className="text-3xl sm:text-5xl mb-4 leading-[1.2] text-balance"
             style={{ fontFamily: 'var(--font-great-vibes)', color: '#8B0000' }}
           >
             {venue.name}
           </h2>
           
           <p
-            className="text-sm sm:text-base italic max-w-[280px] sm:max-w-md mx-auto leading-relaxed text-balance opacity-80"
+            className="text-sm sm:text-base italic max-w-md mx-auto leading-relaxed text-balance opacity-80"
             style={{ color: '#6B5B5B', fontFamily: 'var(--font-cormorant)' }}
           >
             {venue.address}
           </p>
 
           <div className="flex items-center gap-3 justify-center mt-6">
-            <div className="h-px flex-1 max-w-[40px] sm:max-w-[80px]" style={{ background: 'linear-gradient(to right, transparent, #D4AF37)' }} />
+            <div className="h-px flex-1 max-w-[60px] sm:max-w-[100px]" style={{ background: 'linear-gradient(to right, transparent, #D4AF37)' }} />
             <span style={{ color: '#D4AF37' }}>❧</span>
-            <div className="h-px flex-1 max-w-[40px] sm:max-w-[80px]" style={{ background: 'linear-gradient(to left, transparent, #D4AF37)' }} />
+            <div className="h-px flex-1 max-w-[60px] sm:max-w-[100px]" style={{ background: 'linear-gradient(to left, transparent, #D4AF37)' }} />
           </div>
         </motion.div>
 
-        {/* Map embed */}
+        {/* Map embed - TRÀN VIỀN trên Mobile, có bo góc trên Desktop */}
         <motion.div
-          className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white"
+          className="sm:rounded-2xl overflow-hidden shadow-2xl sm:border-4 sm:border-white sm:mx-6"
           initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -75,9 +75,9 @@ export default function MapSection({ side }: { side: WeddingSide }) {
           </div>
         </motion.div>
 
-        {/* CTA Button - Redesigned */}
+        {/* CTA Button */}
         <motion.div
-          className="text-center mt-10"
+          className="text-center mt-10 px-6"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -87,10 +87,10 @@ export default function MapSection({ side }: { side: WeddingSide }) {
             href={venue.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-[#7B171B] text-white px-10 py-4 rounded-full font-sans font-bold uppercase tracking-widest text-[10px] sm:text-xs shadow-[0_10px_25px_rgba(123,23,27,0.3)] hover:bg-[#8B0000] transition-all hover:shadow-[0_15px_30px_rgba(123,23,27,0.4)]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#7B171B] text-white px-10 py-5 rounded-xl sm:rounded-full font-sans font-bold uppercase tracking-widest text-xs shadow-lg hover:bg-[#8B0000] transition-all"
           >
             <Navigation className="w-4 h-4 fill-white/20" />
-            Xem bản đồ & Chỉ đường
+            Mở Bản Đồ & Chỉ Đường
           </a>
         </motion.div>
       </div>

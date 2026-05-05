@@ -6,8 +6,8 @@ import { Send, Heart } from 'lucide-react';
 import { db } from '@/lib/firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-export default function RSVPSection() {
-  const [name, setName] = useState('');
+export default function RSVPSection({ guestName }: { guestName?: string }) {
+  const [name, setName] = useState(guestName ?? '');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { BRIDE, GROOM, COUPLE_PHOTOS, GALLERY_IMAGES, WeddingSide, WEDDING_DATA } from '@/lib/constants/wedding-data';
 
-export default function HeroSection({ side }: { side: WeddingSide }) {
+export default function HeroSection({ side, guestName }: { side: WeddingSide, guestName?: string }) {
   const smallImages = GALLERY_IMAGES.slice(0, 3);
   const data = WEDDING_DATA[side];
   
@@ -63,7 +63,19 @@ export default function HeroSection({ side }: { side: WeddingSide }) {
             ))}
           </div>
           
-          <p className="mt-12 text-wedding-red font-serif text-lg sm:text-2xl tracking-[0.2em] uppercase">
+          {guestName && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="mt-8 mb-4"
+            >
+              <p className="text-wedding-red/70 font-serif text-sm italic">Trân trọng kính mời</p>
+              <p className="text-wedding-red font-serif text-xl sm:text-2xl font-bold mt-1 uppercase tracking-wider">{guestName}</p>
+            </motion.div>
+          )}
+
+          <p className="mt-8 text-wedding-red font-serif text-lg sm:text-2xl tracking-[0.2em] uppercase">
             {dateStr}
           </p>
         </motion.div>
