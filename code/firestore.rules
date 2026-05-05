@@ -1,0 +1,14 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cho phép bất kỳ ai đọc lời chúc
+    // Cho phép tạo lời chúc mới
+    // Không cho phép xóa hoặc chỉnh sửa để bảo vệ nội dung
+    match /wishes/{wishId} {
+      allow read: if true;
+      allow create: if request.resource.data.name != "" && request.resource.data.message != "";
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wedding-red: #7B171B;
+  --color-wedding-red-accent: #8B1E24;
+  --color-wedding-cream: #FFFFFF;
+  --color-wedding-cream-dark: #F9F9F9;
+  --color-wedding-dark: #333333;
+  --color-wedding-gray: #666666;
+
+  --font-script: var(--font-great-vibes), cursive;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+/* ─── Base ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-wedding-cream);
+  color: var(--color-wedding-dark);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── Section Common ─── */
+.section-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
+.wedding-border {
+  border: 1px solid var(--color-wedding-red);
+}
+
+.btn-wedding {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 2.5rem;
+  border: 1px solid var(--color-wedding-red);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+}
+
+.btn-wedding-primary {
+  background-color: var(--color-wedding-red);
+  color: white;
+}
+
+.btn-wedding-primary:hover {
+  background-color: var(--color-wedding-red-accent);
+}
+
+.btn-wedding-white {
+  background-color: white;
+  color: var(--color-wedding-red);
+}
+
+.btn-wedding-white:hover {
+  background-color: var(--color-wedding-cream-dark);
+}
+
+/* Custom separator */
+.separator {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-wedding-red);
+  margin: 1.5rem auto;
+}
