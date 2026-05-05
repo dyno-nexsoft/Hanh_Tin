@@ -21,9 +21,9 @@ export default function HeroSection({ side }: { side: WeddingSide }) {
   ];
 
   return (
-    <section className="bg-white py-12 sm:py-20 px-4 sm:px-6">
+    <section className="bg-white py-8 sm:py-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="space-y-16 sm:space-y-24">
+        <div className="space-y-12 sm:space-y-24">
           
           {/* Section Chú Rể */}
           <motion.div

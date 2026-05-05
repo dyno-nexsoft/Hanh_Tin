@@ -7,9 +7,9 @@ import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
 export default function EventSection({ side }: { side: WeddingSide }) {
   const events = WEDDING_DATA[side].events;
   return (
-    <section className="bg-white py-16 sm:py-24 px-4 sm:px-6">
+    <section className="bg-white py-10 sm:py-24 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16 sm:mb-20">
+        <div className="text-center mb-10 sm:mb-20">
           <h2 className="text-wedding-red font-script text-6xl sm:text-7xl mb-4">Sự Kiện</h2>
           <div className="separator"></div>
         </div>

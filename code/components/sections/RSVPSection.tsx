@@ -29,7 +29,7 @@ export default function RSVPSection({ guestName }: { guestName?: string }) {
   };
 
   return (
-    <section className="bg-wedding-red py-20 px-6 text-white overflow-hidden">
+    <section className="bg-wedding-red py-12 sm:py-20 px-6 text-white overflow-hidden">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-12">
           <motion.div

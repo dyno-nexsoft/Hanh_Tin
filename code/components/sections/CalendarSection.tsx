@@ -20,7 +20,7 @@ export default function CalendarSection({ side }: { side: WeddingSide }) {
   const emptySlots = firstDayOfMonth === 0 ? 0 : firstDayOfMonth; // Simplified for VN calendar (CN is first)
 
   return (
-    <section className="bg-white py-16 sm:py-20 px-4 sm:px-6">
+    <section className="bg-white py-10 sm:py-20 px-4 sm:px-6">
       {/* Giảm padding mobile từ p-10 xuống p-6 để tăng không gian cho chữ */}
       <div className="max-w-md mx-auto p-6 sm:p-10 border border-wedding-red/10 shadow-sm relative bg-wedding-cream-dark/10">
         
@@ -29,7 +29,7 @@ export default function CalendarSection({ side }: { side: WeddingSide }) {
           <p className="font-script text-4xl sm:text-5xl text-wedding-red mb-2 capitalize">{monthName}</p>
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
-            <p className="font-serif text-[10px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.5em] text-wedding-dark/60">{year}</p>
+            <p className="font-serif text-[11px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.5em] text-wedding-dark/60">{year}</p>
             <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function CalendarSection({ side }: { side: WeddingSide }) {
         {/* Header các thứ trong tuần */}
         <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-6 text-center">
           {['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'].map((day, idx) => (
-            <span key={day} className={`text-[10px] font-bold font-serif ${idx === 0 ? 'text-wedding-red' : 'text-wedding-gray'}`}>
+            <span key={day} className={`text-[11px] font-bold font-serif ${idx === 0 ? 'text-wedding-red' : 'text-wedding-gray'}`}>
               {day}
             </span>
           ))}

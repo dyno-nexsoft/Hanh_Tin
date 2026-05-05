@@ -15,7 +15,7 @@ export default function CountdownSection({ side }: { side: WeddingSide }) {
   ];
 
   return (
-    <section className="bg-wedding-red py-16 sm:py-24 px-6 text-white overflow-hidden">
+    <section className="bg-wedding-red py-10 sm:py-24 px-6 text-white overflow-hidden">
       <div className="max-w-4xl mx-auto text-center relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -23,7 +23,7 @@ export default function CountdownSection({ side }: { side: WeddingSide }) {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="font-serif text-[10px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-12 text-white/70">
+          <h2 className="font-serif text-[11px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-10 sm:mb-12 text-white/70">
             Tiết Kiệm Thời Gian Để Đến Ngày Vui
           </h2>
           
@@ -35,7 +35,7 @@ export default function CountdownSection({ side }: { side: WeddingSide }) {
                   <span className="text-3xl sm:text-6xl font-sans font-black mb-1 tabular-nums">
                     {String(item.value).padStart(2, '0')}
                   </span>
-                  <span className="text-[8px] sm:text-[10px] uppercase tracking-widest text-white/50 font-serif">
+                  <span className="text-[10px] sm:text-[10px] uppercase tracking-widest text-white/50 font-serif">
                     {item.label}
                   </span>
                 </div>

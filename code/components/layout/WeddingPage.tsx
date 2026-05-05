@@ -74,8 +74,8 @@ function WeddingPageContent({ side }: WeddingPageProps) {
             <CountdownSection side={side} />
             <GallerySection />
             <WishList guestName={guestName} />
-            <MapSection side={side} />
             <RSVPSection guestName={guestName} />
+            <MapSection side={side} />
             <FooterSection />
 
             <MusicPlayer isPlaying={isPlaying} toggle={toggle} />
@@ -85,12 +85,12 @@ function WeddingPageContent({ side }: WeddingPageProps) {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.7 }}
               onClick={() => setIsGiftModalOpen(true)}
-              className="fixed bottom-6 right-4 z-[60] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/20 text-white"
+              className="fixed bottom-6 right-4 z-[60] w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/20 text-white"
               style={{ backgroundColor: "#7B171B" }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Gift className="w-8 h-8" />
+              <Gift className="w-6 h-6" />
             </motion.button>
 
             <DigitalGiftModal
