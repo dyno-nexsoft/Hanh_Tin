@@ -33,14 +33,14 @@ export default function MapSection({ side }: { side: WeddingSide }) {
           </p>
           
           <h2
-            className="text-3xl sm:text-5xl mb-4 px-4 leading-tight"
+            className="text-3xl sm:text-5xl mb-4 px-4 leading-[1.2] text-balance mx-auto max-w-[320px] sm:max-w-none"
             style={{ fontFamily: 'var(--font-great-vibes)', color: '#8B0000' }}
           >
             {venue.name}
           </h2>
           
           <p
-            className="text-sm sm:text-base italic max-w-[280px] sm:max-w-md mx-auto leading-relaxed"
+            className="text-sm sm:text-base italic max-w-[280px] sm:max-w-md mx-auto leading-relaxed text-balance opacity-80"
             style={{ color: '#6B5B5B', fontFamily: 'var(--font-cormorant)' }}
           >
             {venue.address}
