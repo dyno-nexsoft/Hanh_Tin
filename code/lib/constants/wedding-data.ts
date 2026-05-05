@@ -4,14 +4,16 @@ export const BRIDE = {
   fullName: 'Đoàn Thị Mỹ Hạnh',
   father: 'Đoàn Bảo Trị',
   mother: 'Phan Thị Mỹ Hương',
+  title: 'Ái nữ',
   photo: '/images/couple/bride.webp',
 };
 
 export const GROOM = {
-  name: 'Tin',
-  fullName: 'Trần Hữu Tin',
+  name: 'Tín',
+  fullName: 'Trần Hữu Tín',
   father: 'Trần Hữu Định',
   mother: 'Trần Thị Thu Tâm',
+  title: 'Quý nam',
   photo: '/images/couple/groom.webp',
 };
 
@@ -20,7 +22,9 @@ export type WeddingSide = 'hanh' | 'tin';
 export const WEDDING_DATA = {
   hanh: {
     sideName: 'Nhà Gái',
+    ceremonyTitle: 'LỄ VU QUY',
     weddingDate: new Date('2026-06-06T17:30:00'),
+    lunarDate: 'Ngày 21 tháng 04 năm Bính Ngọ',
     events: [
       {
         id: 'party-hanh',
@@ -48,7 +52,9 @@ export const WEDDING_DATA = {
   },
   tin: {
     sideName: 'Nhà Trai',
+    ceremonyTitle: 'LỄ THÀNH HÔN',
     weddingDate: new Date('2026-06-13T11:00:00'),
+    lunarDate: 'Ngày 28 tháng 04 năm Bính Ngọ',
     events: [
       {
         id: 'party-tin',

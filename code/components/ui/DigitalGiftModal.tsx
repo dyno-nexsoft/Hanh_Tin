@@ -33,7 +33,7 @@ export default function DigitalGiftModal({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center sm:p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -44,10 +44,10 @@ export default function DigitalGiftModal({
 
           {/* Modal */}
           <motion.div
-            className="relative rounded-3xl overflow-hidden max-w-[360px] w-full bg-white shadow-2xl"
-            initial={{ scale: 0.8, y: 30 }}
+            className="relative sm:rounded-3xl overflow-y-auto bg-white shadow-2xl w-full h-full sm:h-auto sm:max-w-[360px]"
+            initial={{ scale: 0.9, y: 30 }}
             animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.8, y: 30 }}
+            exit={{ scale: 0.9, y: 30 }}
             transition={{ type: "spring", duration: 0.5 }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -106,7 +106,7 @@ export default function DigitalGiftModal({
                   <p className="text-wedding-gray text-[9px] uppercase tracking-widest font-serif">
                     Số tài khoản
                   </p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-4">
                     <p className="text-wedding-red font-bold text-2xl tracking-tighter font-sans">
                       {bank.number}
                     </p>

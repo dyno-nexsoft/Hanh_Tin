@@ -68,9 +68,8 @@ function WeddingPageContent({ side }: WeddingPageProps) {
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <HeroSection side={side} guestName={guestName} />
-            <FamilySection />
-            <EventSection side={side} />
+            <FamilySection side={side} />
+            <HeroSection side={side} />
             <CalendarSection side={side} />
             <CountdownSection side={side} />
             <GallerySection />
