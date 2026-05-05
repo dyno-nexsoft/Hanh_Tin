@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { CreditCard, QrCode, X, Copy, Check } from "lucide-react";
-import { BANK, BRIDE, GROOM } from "@/lib/constants/wedding-data";
+import { WEDDING_DATA, WeddingSide, BRIDE, GROOM } from "@/lib/constants/wedding-data";
 
 interface DigitalGiftModalProps {
+  readonly side: WeddingSide;
   readonly isOpen: boolean;
   readonly onClose: () => void;
 }
 
 export default function DigitalGiftModal({
+  side,
   isOpen,
   onClose,
 }: DigitalGiftModalProps) {
   const [copied, setCopied] = useState(false);
+  const bank = WEDDING_DATA[side].bank;
+  
+  // Tạo link VietQR động
+  const qrUrl = `https://img.vietqr.io/image/${bank.bankId}-${bank.number}-compact2.jpg?accountName=${encodeURIComponent(bank.owner)}&addInfo=${encodeURIComponent('Mung cuoi Hanh Tin')}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(BANK.number);
+    navigator.clipboard.writeText(bank.number);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -59,14 +66,15 @@ export default function DigitalGiftModal({
             </div>
 
             <div className="p-6 text-center space-y-6">
-              {/* QR Code */}
-              <div className="relative aspect-square max-w-[200px] mx-auto p-4 border border-wedding-red/10 rounded-2xl bg-wedding-cream-dark/30">
-                <div className="w-full h-full flex flex-col items-center justify-center text-wedding-red/20">
-                  <QrCode className="w-16 h-16 mb-2" />
-                  <span className="text-[9px] uppercase tracking-[0.2em] font-serif font-bold opacity-40">
-                    QR Payment
-                  </span>
-                </div>
+              {/* QR Code động từ VietQR */}
+              <div className="relative aspect-square max-w-[240px] mx-auto p-2 border border-wedding-red/10 rounded-2xl bg-white shadow-sm overflow-hidden">
+                <Image
+                  src={qrUrl}
+                  alt="VietQR"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
 
               {/* Bank info */}
@@ -80,7 +88,7 @@ export default function DigitalGiftModal({
                       Ngân hàng
                     </p>
                     <p className="text-wedding-red font-bold text-base font-serif">
-                      {BANK.bankName}
+                      {bank.bankName}
                     </p>
                   </div>
                 </div>
@@ -90,7 +98,7 @@ export default function DigitalGiftModal({
                     Chủ tài khoản
                   </p>
                   <p className="text-wedding-red font-bold text-base uppercase tracking-wider font-serif">
-                    {BANK.owner}
+                    {bank.owner}
                   </p>
                 </div>
 
@@ -100,7 +108,7 @@ export default function DigitalGiftModal({
                   </p>
                   <div className="flex items-center gap-2">
                     <p className="text-wedding-red font-bold text-2xl tracking-tighter font-sans">
-                      {BANK.number}
+                      {bank.number}
                     </p>
                     <button
                       onClick={handleCopy}

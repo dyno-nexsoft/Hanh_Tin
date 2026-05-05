@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { useCountdown } from '@/lib/hooks/useCountdown';
-import { WEDDING_DATE } from '@/lib/constants/wedding-data';
+import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
 
-export default function CountdownSection() {
-  const { days, hours, minutes, seconds } = useCountdown(WEDDING_DATE);
+export default function CountdownSection({ side }: { side: WeddingSide }) {
+  const { days, hours, minutes, seconds } = useCountdown(WEDDING_DATA[side].weddingDate);
 
   const timeItems = [
     { label: 'Ngày', value: days },

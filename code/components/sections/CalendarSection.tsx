@@ -2,10 +2,22 @@
 
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { WeddingSide, WEDDING_DATA } from '@/lib/constants/wedding-data';
 
-export default function CalendarSection() {
-  const days = Array.from({ length: 30 }, (_, i) => i + 1);
-  const weddingDay = 6;
+export default function CalendarSection({ side }: { side: WeddingSide }) {
+  const data = WEDDING_DATA[side];
+  const weddingDay = data.weddingDate.getDate();
+  const monthName = data.weddingDate.toLocaleString('vi-VN', { month: 'long' });
+  const year = data.weddingDate.getFullYear();
+  
+  // Calculate total days in month
+  const totalDays = new Date(year, data.weddingDate.getMonth() + 1, 0).getDate();
+  const days = Array.from({ length: totalDays }, (_, i) => i + 1);
+
+  // Calculate empty slots before the first day of the month (optional but good)
+  // For simplicity I'll stick to a basic grid or fix the first day offset.
+  const firstDayOfMonth = new Date(year, data.weddingDate.getMonth(), 1).getDay(); // 0 is Sunday
+  const emptySlots = firstDayOfMonth === 0 ? 0 : firstDayOfMonth; // Simplified for VN calendar (CN is first)
 
   return (
     <section className="bg-white py-16 sm:py-20 px-4 sm:px-6">
@@ -14,10 +26,10 @@ export default function CalendarSection() {
         
         {/* Tiêu đề lịch */}
         <div className="text-center mb-8 sm:mb-10">
-          <p className="font-script text-4xl sm:text-5xl text-wedding-red mb-2">Tháng Sáu</p>
+          <p className="font-script text-4xl sm:text-5xl text-wedding-red mb-2 capitalize">{monthName}</p>
           <div className="flex items-center justify-center gap-4">
             <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
-            <p className="font-serif text-[10px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.5em] text-wedding-dark/60">2026</p>
+            <p className="font-serif text-[10px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.5em] text-wedding-dark/60">{year}</p>
             <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
           </div>
         </div>
@@ -33,7 +45,9 @@ export default function CalendarSection() {
 
         {/* Các ngày trong tháng */}
         <div className="grid grid-cols-7 gap-y-2 sm:gap-y-4 text-center">
-          <div className="col-span-1"></div>
+          {Array.from({ length: emptySlots }).map((_, i) => (
+             <div key={`empty-${i}`} className="col-span-1"></div>
+          ))}
           
           {days.map((day) => (
             <div key={day} className="relative flex items-center justify-center h-8 sm:h-10">

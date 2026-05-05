@@ -2,10 +2,18 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { BRIDE, GROOM, COUPLE_PHOTOS, GALLERY_IMAGES } from '@/lib/constants/wedding-data';
+import { BRIDE, GROOM, COUPLE_PHOTOS, GALLERY_IMAGES, WeddingSide, WEDDING_DATA } from '@/lib/constants/wedding-data';
 
-export default function HeroSection() {
+export default function HeroSection({ side }: { side: WeddingSide }) {
   const smallImages = GALLERY_IMAGES.slice(0, 3);
+  const data = WEDDING_DATA[side];
+  
+  // Format date: 06.06.2026
+  const dateStr = data.weddingDate.toLocaleDateString('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).replace(/\//g, '.');
 
   return (
     <section className="bg-white py-12 sm:py-20 px-4 sm:px-6">
@@ -56,7 +64,7 @@ export default function HeroSection() {
           </div>
           
           <p className="mt-12 text-wedding-red font-serif text-lg sm:text-2xl tracking-[0.2em] uppercase">
-            06.06.2026
+            {dateStr}
           </p>
         </motion.div>
       </div>

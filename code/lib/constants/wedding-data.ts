@@ -1,8 +1,7 @@
-/// Tất cả thông tin đám cưới — nguồn duy nhất (single source of truth).
-/// Thay đổi ở đây sẽ ảnh hưởng toàn bộ website.
+/// Tất cả thông tin đám cưới — hỗ trợ phân chia Nhà Trai / Nhà Gái.
 export const BRIDE = {
   name: 'Hạnh',
-  fullName: 'Đoàn Thị Hạnh',
+  fullName: 'Đoàn Thị Mỹ Hạnh',
   father: 'Đoàn Bảo Trị',
   mother: 'Phan Thị Mỹ Hương',
   photo: '/images/couple/bride.webp',
@@ -16,55 +15,72 @@ export const GROOM = {
   photo: '/images/couple/groom.webp',
 };
 
-/// Ngày giờ mục tiêu đếm ngược — Tiệc cưới nhà gái.
-export const WEDDING_DATE = new Date('2026-06-06T17:30:00');
+export type WeddingSide = 'hanh' | 'tin';
 
-export const EVENTS = [
-  {
-    id: 'ceremony',
-    title: 'Lễ Thành Hôn',
-    time: '17:30',
-    date: 'Thứ Bảy, 06 tháng 06 năm 2026',
-    venue: 'Tiệc Cưới Tuấn Hà',
-    address: 'TP. Hồ Chí Minh', // ← cập nhật địa chỉ thật
-    icon: '💍',
+export const WEDDING_DATA = {
+  hanh: {
+    sideName: 'Nhà Gái',
+    weddingDate: new Date('2026-06-06T17:30:00'),
+    events: [
+      {
+        id: 'party-hanh',
+        title: 'Tiệc Mừng Nhà Gái',
+        time: '17:30',
+        date: 'Thứ Bảy, 06 tháng 06 năm 2026',
+        venue: 'Tiệc Cưới Tuấn Hà',
+        address: 'Phú Bình, Cam Lâm, Khánh Hòa',
+        icon: '🥂',
+      },
+    ],
+    venue: {
+      name: 'Tiệc Cưới Tuấn Hà',
+      address: '44F4+C3P, Phú Bình, Cam Lâm, Khánh Hòa',
+      mapsUrl: 'https://maps.app.goo.gl/Skz8jdAMVdQxqm138',
+      embedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3905.811568285554!2d109.1362!3d11.954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317094943f65e237%3A0xc3f98018e6e87364!2zVGnhu4djIGPGsOG7m2kgVXXhuqVuIEjDoA!5e0!3m2!1svi!2s!4v1714800000000',
+    },
+    bank: {
+      owner: 'DOAN THI MY HANH',
+      number: '109874643600',
+      bankName: 'VietinBank',
+      bankId: 'ICB',
+      qrImage: '/images/qr-hanh.png',
+    }
   },
-  {
-    id: 'party',
-    title: 'Tiệc Mừng Nhà Gái',
-    time: '17:30',
-    date: 'Thứ Bảy, 06 tháng 06 năm 2026',
-    venue: 'Tiệc Cưới Tuấn Hà',
-    address: 'TP. Hồ Chí Minh', // ← cập nhật địa chỉ thật
-    icon: '🥂',
-  },
-];
-
-export const VENUE = {
-  name: 'Tiệc Cưới Tuấn Hà',
-  address: 'TP. Hồ Chí Minh', // ← cập nhật địa chỉ đầy đủ
-  mapsUrl: 'https://maps.google.com', // ← cập nhật link Google Maps thật
-  // Embed URL từ Google Maps → Share → Embed a map → copy src="..."
-  embedUrl:
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919!2d106.6297!3d10.8231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ5JzIzLjIiTiAxMDbCsDM3JzQ2LjkiRQ!5e0!3m2!1svi!2s!4v1000000000',
+  tin: {
+    sideName: 'Nhà Trai',
+    weddingDate: new Date('2026-06-13T11:00:00'),
+    events: [
+      {
+        id: 'party-tin',
+        title: 'Tiệc Mừng Nhà Trai',
+        time: '11:00',
+        date: 'Thứ Bảy, 13 tháng 06 năm 2026',
+        venue: 'Nhà Hàng Tiệc Cưới Công Quang',
+        address: 'Đại Lãnh, Khánh Hòa',
+        icon: '🥂',
+      },
+    ],
+    venue: {
+      name: 'Nhà Hàng Tiệc Cưới Công Quang',
+      address: 'R9Q7+2WG, QL1, Đại Lãnh, Khánh Hòa',
+      mapsUrl: 'https://maps.app.goo.gl/q9DhYewqVFW7T9PK6',
+      embedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3898.1565432!2d109.3562!3d12.854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUxJzE0LjQiTiAxMDnCsDIxJzEwLjMiRQ!5e0!3m2!1svi!2s!4v1714800000000',
+    },
+    bank: {
+      owner: 'TRAN HUU TIN',
+      number: '0061001149165',
+      bankName: 'Vietcombank',
+      bankId: 'VCB',
+      qrImage: '/images/qr-tin.png',
+    }
+  }
 };
 
-/// Thông tin ngân hàng — dùng cho modal QR mừng cưới.
-export const BANK = {
-  owner: 'TRAN HUU TIN',
-  number: '1234567890', // ← cập nhật số tài khoản thật
-  bankName: 'Vietcombank',
-  branch: 'CN TP.HCM',
-  qrImage: '/images/qr-code.png', // ← thêm QR vào public/images/
-};
-
-/// Danh sách ảnh gallery — 23 ảnh.
 export const GALLERY_IMAGES = Array.from({ length: 23 }, (_, i) => ({
   src: `/images/gallery/${String(i + 1).padStart(2, '0')}.webp`,
   alt: `Ảnh cưới ${i + 1}`,
 }));
 
-/// Couple photos cho hero và love story section.
 export const COUPLE_PHOTOS = {
   hero: '/images/couple/hero.webp',
   close: '/images/couple/close.webp',

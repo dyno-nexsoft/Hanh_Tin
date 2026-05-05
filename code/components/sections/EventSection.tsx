@@ -2,9 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { Heart, GlassWater, MapPin, Calendar } from 'lucide-react';
-import { EVENTS } from '@/lib/constants/wedding-data';
+import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
 
-export default function EventSection() {
+export default function EventSection({ side }: { side: WeddingSide }) {
+  const events = WEDDING_DATA[side].events;
   return (
     <section className="bg-white py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
@@ -13,8 +14,8 @@ export default function EventSection() {
           <div className="separator"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16">
-          {EVENTS.map((event, idx) => (
+        <div className={`grid grid-cols-1 ${events.length > 1 ? 'md:grid-cols-2' : 'max-w-md mx-auto'} gap-12 sm:gap-16`}>
+          {events.map((event, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}

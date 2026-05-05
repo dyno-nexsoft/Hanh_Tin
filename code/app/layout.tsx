@@ -48,6 +48,7 @@ export default function RootLayout({
     <html
       lang="vi"
       className={`${greatVibes.variable} ${cormorant.variable} ${inter.variable}`}
+      suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>
     </html>
