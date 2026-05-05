@@ -29,10 +29,10 @@ export default function EnvelopeCover({ onOpen }: EnvelopeCoverProps) {
           {/* Họa tiết Song Hỷ mờ ở nền */}
           <div className="absolute inset-0 opacity-5 pointer-events-none">
             <div className="absolute top-10 left-10 w-64 h-64 rotate-12">
-              <Image src="/song-hy-gold.png" alt="pattern" fill className="object-contain" />
+              <Image src="/song-hy-gold.webp" alt="pattern" fill className="object-contain" />
             </div>
             <div className="absolute bottom-10 right-10 w-64 h-64 -rotate-12">
-              <Image src="/song-hy-gold.png" alt="pattern" fill className="object-contain" />
+              <Image src="/song-hy-gold.webp" alt="pattern" fill className="object-contain" />
             </div>
           </div>
 
@@ -46,7 +46,7 @@ export default function EnvelopeCover({ onOpen }: EnvelopeCoverProps) {
               {/* Biểu tượng Song Hỷ chính - Được AI tạo riêng cho thiệp */}
               <div className="relative w-40 h-40 sm:w-64 sm:h-64 mx-auto mb-2 overflow-hidden rounded-full">
                 <Image
-                  src="/song-hy-gold.png"
+                  src="/song-hy-gold.webp"
                   alt="Song Hỷ Gold"
                   fill
                   className="object-cover"
