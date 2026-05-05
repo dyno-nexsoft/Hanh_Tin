@@ -12,7 +12,9 @@ export default function WishList({ guestName }: { guestName?: string }) {
 
   const fetchWishes = async () => {
     try {
+      console.log('Fetching wishes from Firestore...');
       const data = await getWishes();
+      console.log(`Successfully fetched ${data.length} wishes.`);
       // Xáo trộn ngẫu nhiên
       const shuffled = [...data].sort(() => Math.random() - 0.5);
       setWishes(shuffled);
