@@ -19,7 +19,7 @@ const config: Config = {
       },
       fontFamily: {
         script: ['var(--font-great-vibes)', 'cursive'],
-        serif: ['var(--font-cormorant)', 'Georgia', 'serif'],
+        serif: ['var(--font-lora)', 'Georgia', 'serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
     },

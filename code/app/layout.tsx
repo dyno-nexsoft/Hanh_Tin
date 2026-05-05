@@ -1,23 +1,23 @@
 import type { Metadata } from 'next';
-import { Great_Vibes, Cormorant_Garamond, Inter } from 'next/font/google';
+import { Great_Vibes, Lora, Inter } from 'next/font/google';
 import './globals.css';
 
 const greatVibes = Great_Vibes({
-  subsets: ['latin'],
+  subsets: ['latin', 'vietnamese'],
   weight: '400',
   variable: '--font-great-vibes',
   display: 'swap',
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-cormorant',
+const lora = Lora({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-lora',
   display: 'swap',
 });
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ['latin', 'vietnamese'],
   variable: '--font-inter',
   display: 'swap',
 });
@@ -35,7 +35,8 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.webp',
+    apple: '/apple-icon.webp',
   },
 };
 
@@ -48,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${greatVibes.variable} ${cormorant.variable} ${inter.variable}`}
+      className={`${greatVibes.variable} ${lora.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>

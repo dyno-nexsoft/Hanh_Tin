@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import { motion } from 'framer-motion';
-import { GALLERY_IMAGES } from '@/lib/constants/wedding-data';
+import { GALLERY_IMAGES } from '@/lib/config/wedding';
 
 export default function GallerySection() {
   const [open, setOpen] = useState(false);

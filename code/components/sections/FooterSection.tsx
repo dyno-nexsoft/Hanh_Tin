@@ -1,11 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { BRIDE, GROOM } from '@/lib/constants/wedding-data';
+import { BRIDE, GROOM } from '@/lib/config/wedding';
 
 export default function FooterSection() {
   return (
-    <footer className="bg-white py-12 sm:py-20 px-6 text-center border-t border-wedding-red/10">
+    <footer className="bg-white pt-12 pb-24 sm:py-20 px-6 text-center border-t border-wedding-red/10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -24,7 +24,7 @@ export default function FooterSection() {
           Trân Trọng Cảm Ơn
         </p>
         
-        <p className="mt-12 text-wedding-red/40 text-[11px] tracking-widest uppercase font-serif">
+        <p className="mt-12 text-wedding-red/40 text-[10px] sm:text-[11px] tracking-wider sm:tracking-widest uppercase font-serif px-8">
           © 2026 {BRIDE.name} & {GROOM.name} · Designed with Love
         </p>
       </motion.div>

@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { Heart, GlassWater, MapPin, Calendar } from 'lucide-react';
-import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
+import { WeddingSide } from '@/lib/types';
+import { WEDDING_DATA } from '@/lib/config/wedding';
 
 export default function EventSection({ side }: { side: WeddingSide }) {
   const events = WEDDING_DATA[side].events;

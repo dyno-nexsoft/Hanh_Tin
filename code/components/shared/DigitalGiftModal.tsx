@@ -4,7 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { CreditCard, QrCode, X, Copy, Check } from "lucide-react";
-import { WEDDING_DATA, WeddingSide, BRIDE, GROOM } from "@/lib/constants/wedding-data";
+import { WeddingSide } from "@/lib/types";
+import { WEDDING_DATA, BRIDE, GROOM } from "@/lib/config/wedding";
 
 interface DigitalGiftModalProps {
   readonly side: WeddingSide;

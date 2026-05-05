@@ -1,5 +1,5 @@
 import WeddingPage from "@/components/layout/WeddingPage";
-import { WeddingSide } from "@/lib/constants/wedding-data";
+import { WeddingSide } from "@/lib/types";
 import { notFound } from "next/navigation";
 
 interface PageProps {

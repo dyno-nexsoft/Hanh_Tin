@@ -3,7 +3,8 @@
 /// Section bản đồ địa điểm — Thiết kế tràn viền (Full-width) cho Mobile.
 import { motion } from 'framer-motion';
 import { MapPin, Navigation } from 'lucide-react';
-import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
+import { WeddingSide } from '@/lib/types';
+import { WEDDING_DATA } from '@/lib/config/wedding';
 
 export default function MapSection({ side }: { side: WeddingSide }) {
   const venue = WEDDING_DATA[side].venue;
@@ -41,7 +42,7 @@ export default function MapSection({ side }: { side: WeddingSide }) {
           
           <p
             className="text-sm sm:text-base italic max-w-md mx-auto leading-relaxed text-balance opacity-80"
-            style={{ color: '#6B5B5B', fontFamily: 'var(--font-cormorant)' }}
+            style={{ color: '#6B5B5B', fontFamily: 'var(--font-lora)' }}
           >
             {venue.address}
           </p>

@@ -3,7 +3,8 @@
 /// WishList — Phiên bản Multi-row Marquee (Nhiều hàng chạy đan xen).
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getWishes, WishData } from '@/lib/firebase/services';
+import { getWishes } from '@/lib/firebase/services';
+import { WishData } from '@/lib/types';
 import { MessageSquare } from 'lucide-react';
 
 export default function WishList({ guestName }: { guestName?: string }) {

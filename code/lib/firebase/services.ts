@@ -8,13 +8,9 @@ import {
   limit,
   getDocs,
 } from 'firebase/firestore';
-import { db } from './config';
+import { db } from '@/lib/config/firebase';
 
-export interface WishData {
-  name: string;
-  message: string;
-  createdAt?: unknown;
-}
+import { WishData } from '@/lib/types';
 
 /// Gửi lời chúc mừng từ khách dự.
 /// Tự động thêm timestamp từ phía server để đảm bảo tính nhất quán.

@@ -2,7 +2,8 @@
 
 /// Section thông tin gia đình — Hoàn thiện chuẩn thiệp giấy Việt Nam (Vu Quy/Thành Hôn + Ngày Âm).
 import { motion } from 'framer-motion';
-import { BRIDE, GROOM, WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
+import { WeddingSide } from '@/lib/types';
+import { BRIDE, GROOM, WEDDING_DATA } from '@/lib/config/wedding';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Image from 'next/image';
@@ -21,25 +22,25 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
   const data = WEDDING_DATA[side];
 
   return (
-    <section className="bg-wedding-cream-dark py-10 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
+    <section className="bg-wedding-cream-dark py-4 sm:py-24 px-2 sm:px-6 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
-          <Image src="/song-hy-gold.webp" alt="bg" fill className="object-contain" />
+          <Image src="/assets/icons/song-hy-gold.webp" alt="bg" fill className="object-contain" />
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto relative z-10 bg-white/40 p-6 sm:p-12 rounded-[2rem] border border-wedding-red/5 shadow-inner">
+      <div className="max-w-4xl mx-auto relative z-10 bg-white/40 px-2 py-4 sm:p-12 rounded-[2rem] border border-wedding-red/5 shadow-inner">
         
         {/* Tên Lễ (Vu Quy hoặc Thành Hôn) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="text-center mb-6 sm:mb-10"
+          className="text-center mb-4 sm:mb-10"
         >
           <div className="relative w-16 h-16 mx-auto mb-4 opacity-90 rounded-full overflow-hidden border border-wedding-red/10 bg-white/50 p-2 shadow-sm">
-            <Image src="/song-hy-gold.webp" alt="囍" fill className="object-contain" />
+            <Image src="/assets/icons/song-hy-gold.webp" alt="囍" fill className="object-contain" />
           </div>
           <h2 className="text-wedding-red font-serif text-2xl sm:text-4xl tracking-[0.3em] font-bold uppercase mb-2">
             {data.ceremonyTitle}
@@ -53,7 +54,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-6 sm:mb-12"
           >
             <p className="text-wedding-gray text-[11px] sm:text-xs tracking-[0.2em] uppercase mb-1">Trân trọng kính mời</p>
             <p className="text-wedding-red font-serif text-xl sm:text-3xl italic font-bold px-4 leading-tight">
@@ -72,7 +73,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
         )}
 
         {/* Bố cục 2 cột Nhà Trai - Nhà Gái */}
-        <div className="grid grid-cols-2 gap-4 sm:gap-12 text-center items-start border-t border-wedding-red/10 pt-8 sm:pt-12">
+        <div className="grid grid-cols-2 gap-2 sm:gap-12 text-center items-start border-t border-wedding-red/10 pt-8 sm:pt-12">
           
           {/* Nhà Gái */}
           <div className="space-y-4 sm:space-y-6">
@@ -86,7 +87,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
               <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">
                 {BRIDE.title}
               </p>
-              <h4 className="text-xl sm:text-4xl font-script text-wedding-red">
+               <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
                 {BRIDE.fullName}
               </h4>
             </div>
@@ -104,7 +105,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
               <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">
                 {GROOM.title}
               </p>
-              <h4 className="text-xl sm:text-4xl font-script text-wedding-red">
+               <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
                 {GROOM.fullName}
               </h4>
             </div>
@@ -116,7 +117,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-10 sm:mt-16 text-center border-t border-wedding-red/10 pt-8"
+          className="mt-6 sm:mt-16 text-center border-t border-wedding-red/10 pt-8"
         >
           <p className="text-wedding-red font-serif text-xs sm:text-sm tracking-widest uppercase mb-1">
             Vào lúc {data.events[0].time}

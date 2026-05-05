@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { useCountdown } from '@/lib/hooks/useCountdown';
-import { WEDDING_DATA, WeddingSide } from '@/lib/constants/wedding-data';
+import { WeddingSide } from '@/lib/types';
+import { WEDDING_DATA } from '@/lib/config/wedding';
 
 export default function CountdownSection({ side }: { side: WeddingSide }) {
   const { days, hours, minutes, seconds } = useCountdown(WEDDING_DATA[side].weddingDate);
@@ -15,7 +16,7 @@ export default function CountdownSection({ side }: { side: WeddingSide }) {
   ];
 
   return (
-    <section className="bg-wedding-red py-10 sm:py-24 px-6 text-white overflow-hidden">
+    <section className="bg-wedding-red py-6 sm:py-24 px-4 sm:px-6 text-white overflow-hidden">
       <div className="max-w-4xl mx-auto text-center relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -23,8 +24,8 @@ export default function CountdownSection({ side }: { side: WeddingSide }) {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="font-serif text-[11px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-10 sm:mb-12 text-white/70">
-            Tiết Kiệm Thời Gian Để Đến Ngày Vui
+          <h2 className="font-serif text-[11px] sm:text-xs uppercase tracking-wide sm:tracking-[0.5em] mb-10 sm:mb-12 text-white/70">
+            Đếm ngược đến ngày hạnh phúc
           </h2>
           
           <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-2xl mx-auto">

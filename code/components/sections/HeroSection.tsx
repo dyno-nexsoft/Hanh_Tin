@@ -3,7 +3,8 @@
 /// Section Hero — Thiết kế mới Layout 2:2 giới thiệu riêng biệt Cô dâu & Chú rể.
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { BRIDE, GROOM, WeddingSide, WEDDING_DATA } from '@/lib/constants/wedding-data';
+import { WeddingSide } from '@/lib/types';
+import { BRIDE, GROOM, WEDDING_DATA } from '@/lib/config/wedding';
 
 export default function HeroSection({ side }: { side: WeddingSide }) {
   const data = WEDDING_DATA[side];

@@ -15,10 +15,10 @@ import RSVPSection from "@/components/sections/RSVPSection";
 import GallerySection from "@/components/sections/GallerySection";
 import WishList from "@/components/sections/WishList";
 import FooterSection from "@/components/sections/FooterSection";
-import MusicPlayer from "@/components/ui/MusicPlayer";
-import DigitalGiftModal from "@/components/ui/DigitalGiftModal";
+import MusicPlayer from "@/components/shared/MusicPlayer";
+import DigitalGiftModal from "@/components/shared/DigitalGiftModal";
 import { useMusic } from "@/lib/hooks/useMusic";
-import { WeddingSide } from "@/lib/constants/wedding-data";
+import { WeddingSide } from "@/lib/types";
 
 interface WeddingPageProps {
   side: WeddingSide;
