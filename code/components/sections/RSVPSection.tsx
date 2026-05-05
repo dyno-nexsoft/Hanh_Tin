@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Heart } from 'lucide-react';
-import { db } from '@/lib/firebase/config';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { addWish } from '@/lib/firebase/services';
 
 export default function RSVPSection({ guestName }: { guestName?: string }) {
   const [name, setName] = useState(guestName ?? '');
@@ -18,11 +17,7 @@ export default function RSVPSection({ guestName }: { guestName?: string }) {
 
     setLoading(true);
     try {
-      await addDoc(collection(db, 'wishes'), {
-        name,
-        message,
-        timestamp: serverTimestamp(),
-      });
+      await addWish({ name, message });
       setSubmitted(true);
       setName('');
       setMessage('');

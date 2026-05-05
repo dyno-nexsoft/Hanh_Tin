@@ -23,6 +23,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hanh-tin-wedding.web.app'),
   title: 'Thiệp Cưới Hạnh & Tin — 06.06.2026',
   description:
     'Chúng tôi trân trọng kính mời bạn đến chung vui trong ngày lễ thành hôn của Hạnh & Tin. Tiệc cưới tổ chức lúc 17h30 ngày 06/06/2026 tại Tiệc Cưới Tuấn Hà.',
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Thiệp Cưới Hạnh & Tin',
     description: '06.06.2026 — Tiệc Cưới Tuấn Hà',
-    images: ['/images/couple/hero.jpg'],
+    images: ['/images/couple/hero.webp'], // Sửa lại extension nếu cần, trong wedding-data dùng .webp
     type: 'website',
   },
   icons: {
