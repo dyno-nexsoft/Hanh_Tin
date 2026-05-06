@@ -26,7 +26,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
-          <Image src="/assets/icons/song-hy-gold.webp" alt="bg" fill className="object-contain" />
+          <Image src="/assets/images/song-hy-gold.webp" alt="bg" fill className="object-contain" />
         </div>
       </div>
 
@@ -40,7 +40,7 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
           className="text-center mb-4 sm:mb-10"
         >
           <div className="relative w-16 h-16 mx-auto mb-4 opacity-90 rounded-full overflow-hidden border border-wedding-red/10 bg-white/50 p-2 shadow-sm">
-            <Image src="/assets/icons/song-hy-gold.webp" alt="囍" fill className="object-contain" />
+            <Image src="/assets/images/song-hy-gold.webp" alt="囍" fill className="object-contain" />
           </div>
           <h2 className="text-wedding-red font-serif text-2xl sm:text-4xl tracking-[0.3em] font-bold uppercase mb-2">
             {data.ceremonyTitle}

@@ -35,10 +35,10 @@ export default function WeddingPage({ side }: WeddingPageProps) {
 function WeddingPageContent({ side }: WeddingPageProps) {
   const [isOpened, setIsOpened] = useState(false);
   const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
-  
+
   const searchParams = useSearchParams();
-  const guestName = searchParams.get('to') || undefined;
-  
+  const guestName = searchParams.get("to") || undefined;
+
   const { isPlaying, toggle, play } = useMusic("/audio/song.m4a");
 
   useEffect(() => {
@@ -80,18 +80,54 @@ function WeddingPageContent({ side }: WeddingPageProps) {
 
             <MusicPlayer isPlaying={isPlaying} toggle={toggle} />
 
-            <motion.button
-              initial={{ opacity: 0, x: 50, scale: 0.5 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.7 }}
-              onClick={() => setIsGiftModalOpen(true)}
-              className="fixed bottom-6 right-4 z-[60] w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/20 text-white"
-              style={{ backgroundColor: "#7B171B" }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Gift className="w-6 h-6" />
-            </motion.button>
+            {/* Floating Gift Button with Premium Animations */}
+            <div className="fixed bottom-6 right-4 z-[60]">
+              {/* Pulse Ring */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.4, 1],
+                  opacity: [0.3, 0, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 rounded-full border-2 border-[#7B171B]"
+              />
+              
+              <motion.button
+                initial={{ opacity: 0, x: 50, scale: 0.5 }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0, 
+                  scale: [1, 1.05, 1],
+                  rotate: [0, -5, 5, -5, 5, 0]
+                }}
+                transition={{
+                  scale: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  },
+                  rotate: {
+                    duration: 0.5,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut"
+                  },
+                  opacity: { duration: 0.5 },
+                  x: { type: "spring", stiffness: 260, damping: 20 }
+                }}
+                onClick={() => setIsGiftModalOpen(true)}
+                className="relative w-12 h-12 rounded-full flex items-center justify-center shadow-2xl border-2 border-white/20 text-white"
+                style={{ backgroundColor: "#7B171B" }}
+                whileHover={{ scale: 1.15, rotate: 0 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Gift className="w-6 h-6" />
+              </motion.button>
+            </div>
 
             <DigitalGiftModal
               side={side}

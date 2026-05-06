@@ -41,16 +41,16 @@ export default function WishList({ guestName }: { guestName?: string }) {
   );
 
   return (
-    <section className="bg-wedding-cream-dark py-20 overflow-hidden border-y border-wedding-red/5">
-      <div className="text-center mb-12 px-6">
+    <section className="bg-wedding-cream-dark py-12 overflow-hidden border-y border-wedding-red/5">
+      <div className="text-center mb-6 px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-script text-6xl text-wedding-red">Lời Chúc Từ Bạn Bè</h2>
+          <h2 className="font-script text-4xl sm:text-6xl text-wedding-red">Lời Chúc Thân Thương</h2>
           <p className="text-wedding-gray font-serif italic mt-2 opacity-70">
-            {wishes.length > 0 ? `Cảm ơn ${wishes.length} lời chúc từ mọi người` : 'Hãy gửi lời chúc đầu tiên cho hai bạn nhé!'}
+            {wishes.length > 0 ? `Cảm ơn ${wishes.length} tình cảm từ mọi người dành cho chúng mình` : 'Cảm ơn mọi người đã gửi lời chúc!'}
           </p>
         </motion.div>
       </div>
@@ -64,7 +64,7 @@ export default function WishList({ guestName }: { guestName?: string }) {
           {wishGroups.map((group, rowIdx) => (
             <div key={rowIdx} className="relative flex overflow-hidden">
               <motion.div
-                className="flex gap-6 py-10 px-6"
+                className="flex gap-6 py-6 px-6"
                 animate={{
                   x: rowIdx % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"],
                 }}

@@ -14,9 +14,11 @@ export default function GallerySection() {
   return (
     <section className="bg-white py-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-wedding-red font-script text-6xl mb-4">Album Ảnh</h2>
-          <div className="separator"></div>
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-wedding-red font-script text-5xl sm:text-6xl mb-4">Our Memories</h2>
+          <p className="text-wedding-gray font-serif italic max-w-lg mx-auto leading-relaxed text-sm sm:text-base opacity-80">
+            Lưu giữ những khoảnh khắc ngọt ngào nhất của tình yêu chúng mình
+          </p>
         </div>
 
         {/* Giảm gap từ 6 xuống 2 để ảnh to hơn và gần nhau hơn */}

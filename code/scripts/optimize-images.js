@@ -63,23 +63,31 @@ async function walkDir(dir) {
 }
 
 async function run() {
+  const args = process.argv.slice(2);
+  const targetDir = args[0] ? path.resolve(process.cwd(), args[0]) : null;
+
   console.log('Starting image optimization...');
   
-  // Tối ưu ảnh trong thư mục images
-  await walkDir(imagesDir);
-  
-  // Tối ưu các icon trong assets/icons
-  await walkDir(iconDir);
-  
-  // Tối ưu icon chính ở app/ (giữ nguyên định dạng png cho favicon/apple-icon)
-  const appIconPath = path.join(__dirname, '../app/icon.png');
-  if (fs.existsSync(appIconPath)) {
-    const buffer = fs.readFileSync(appIconPath);
-    await sharp(buffer)
-      .png({ quality: 80, compressionLevel: 9 })
-      .toFile(appIconPath + '.tmp');
-    fs.renameSync(appIconPath + '.tmp', appIconPath);
-    console.log('Optimized: app/icon.png');
+  if (targetDir) {
+    console.log(`Optimizing images in: ${targetDir}`);
+    await walkDir(targetDir);
+  } else {
+    // Tối ưu ảnh trong thư mục images
+    await walkDir(imagesDir);
+    
+    // Tối ưu các icon trong assets/icons
+    await walkDir(iconDir);
+    
+    // Tối ưu icon chính ở app/ (giữ nguyên định dạng png cho favicon/apple-icon)
+    const appIconPath = path.join(__dirname, '../app/icon.png');
+    if (fs.existsSync(appIconPath)) {
+      const buffer = fs.readFileSync(appIconPath);
+      await sharp(buffer)
+        .png({ quality: 80, compressionLevel: 9 })
+        .toFile(appIconPath + '.tmp');
+      fs.renameSync(appIconPath + '.tmp', appIconPath);
+      console.log('Optimized: app/icon.png');
+    }
   }
 
   console.log('Optimization complete!');

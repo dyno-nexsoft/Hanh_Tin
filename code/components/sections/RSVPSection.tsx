@@ -44,10 +44,12 @@ export default function RSVPSection({ guestName }: { guestName?: string }) {
               <div className="h-px w-8 bg-white/30"></div>
             </div>
             
-            {/* Fix lỗi xuống dòng: Dùng text-xs/sm và tracking-wide thay vì quá rộng */}
-            <p className="font-serif text-[11px] sm:text-xs uppercase tracking-wide sm:tracking-[0.3em] text-white/80 leading-relaxed whitespace-nowrap">
-              Rất vui khi nhận được lời chúc của bạn
-            </p>
+            <div className="max-w-md mx-auto mt-6">
+              <p className="font-serif text-sm sm:text-base italic text-white/90 leading-relaxed">
+                Mỗi lời chúc, mỗi sự hiện diện đều là điều đáng quý mà chúng tôi luôn trân trọng.
+                Cảm ơn vì bạn đã là một phần trong ngày đặc biệt này.
+              </p>
+            </div>
           </motion.div>
         </div>
 
