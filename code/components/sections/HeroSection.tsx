@@ -35,7 +35,7 @@ export default function HeroSection({ side }: { side: WeddingSide }) {
           >
             <div className="mb-6">
               <p className="text-wedding-red/60 text-xs tracking-[0.3em] uppercase mb-2">Chú rể</p>
-              <h2 className="text-2xl sm:text-4xl font-serif font-bold text-wedding-red uppercase tracking-wider">
+              <h2 className="text-4xl sm:text-6xl font-script text-wedding-red">
                 {GROOM.fullName}
               </h2>
             </div>
@@ -63,7 +63,7 @@ export default function HeroSection({ side }: { side: WeddingSide }) {
           >
             <div className="mb-6">
               <p className="text-wedding-red/60 text-xs tracking-[0.3em] uppercase mb-2">Cô dâu</p>
-              <h2 className="text-2xl sm:text-4xl font-serif font-bold text-wedding-red uppercase tracking-wider">
+              <h2 className="text-4xl sm:text-6xl font-script text-wedding-red">
                 {BRIDE.fullName}
               </h2>
             </div>

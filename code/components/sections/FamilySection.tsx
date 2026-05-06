@@ -60,14 +60,8 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
             <p className="text-wedding-red font-serif text-xl sm:text-3xl italic font-bold px-4 leading-tight">
               {guestName}
             </p>
-            <p className="text-wedding-gray text-[11px] sm:text-xs mt-3 max-w-[280px] sm:max-w-none mx-auto opacity-70">
-              Đến dự buổi tiệc rượu thân mật chung vui cùng gia đình chúng tôi tại:
-            </p>
-            <p className="text-sm sm:text-lg font-serif font-bold text-wedding-red mt-1">
-              {data.venue.name}
-            </p>
-            <p className="text-wedding-dark font-serif text-[11px] sm:text-sm mt-1 opacity-80">
-              {data.venue.address}
+            <p className="text-wedding-gray text-[13px] sm:text-sm mt-3 max-w-[280px] sm:max-w-none mx-auto opacity-80">
+              Đến dự buổi tiệc rượu thân mật chung vui cùng gia đình chúng tôi:
             </p>
           </motion.div>
         )}
@@ -111,6 +105,22 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
             </div>
           </div>
         </div>
+
+        {/* Thông tin địa điểm - Di chuyển xuống dưới tên */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-8 sm:mt-12"
+        >
+          <p className="text-wedding-gray text-[11px] sm:text-xs tracking-[0.1em] uppercase mb-2 opacity-80">Tại địa điểm:</p>
+          <p className="text-lg sm:text-2xl font-serif font-bold text-wedding-red leading-tight">
+            {data.venue.name}
+          </p>
+          <p className="text-wedding-dark font-serif text-[13px] sm:text-base mt-1 opacity-90">
+            {data.venue.address}
+          </p>
+        </motion.div>
 
         {/* Ngày Âm Lịch - Đặt ở cuối phần giới thiệu */}
         <motion.div
