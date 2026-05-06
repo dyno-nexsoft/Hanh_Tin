@@ -55,20 +55,22 @@ export default function AdminPage() {
   };
 
   const shareLink = async (link: GuestLinkData) => {
+    const shareData = {
+      title: 'Thiệp Cưới Hạnh & Tín',
+      text: `Trân trọng kính mời ${link.name} đến dự lễ cưới của chúng tôi!`,
+      url: link.url,
+    };
+
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: 'Thiệp Cưới Hạnh & Tín',
-          text: `Trân trọng kính mời ${link.name} đến dự lễ cưới của chúng tôi!`,
-          url: link.url,
-        });
+        await navigator.share(shareData);
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
-          window.open(link.url, '_blank');
+          copyToClipboard(link.url, link.id!);
         }
       }
     } else {
-      window.open(link.url, '_blank');
+      copyToClipboard(link.url, link.id!);
     }
   };
 

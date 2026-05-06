@@ -41,8 +41,11 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/icon.webp",
-    apple: "/apple-icon.webp",
+    icon: [
+      { url: "/icon.webp" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 
