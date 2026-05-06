@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fix-icon": "npx sharp-cli -i app/icon.webp -o app/icon.png resize 32 32 && copy app\\icon.png app\\favicon.ico"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
