@@ -71,7 +71,7 @@ export default function CalendarSection({ side }: { side: WeddingSide }) {
         <div className="mt-10 sm:mt-12 text-center">
           {/* Tối ưu mobile: text-xl/2xl và whitespace-nowrap để không bị gãy dòng */}
           <p className="font-script text-xl sm:text-3xl text-wedding-red opacity-80 whitespace-nowrap">
-            Hẹn gặp bạn tại buổi tiệc lúc 17:30
+            Hẹn gặp bạn tại buổi tiệc lúc {data.events[0].time}
           </p>
         </div>
         

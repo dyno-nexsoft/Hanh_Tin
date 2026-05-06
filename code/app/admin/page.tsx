@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy, ExternalLink, Trash2, CheckCircle2, UserPlus, Link as LinkIcon } from 'lucide-react';
+import { Copy, Share2, Trash2, CheckCircle2, UserPlus, Link as LinkIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface GuestLink {
@@ -57,6 +57,24 @@ export default function AdminPage() {
 
     setLinks([newLink, ...links]);
     setGuestName('');
+  };
+
+  const shareLink = async (link: GuestLink) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Thiệp Cưới Hạnh & Tín',
+          text: `Trân trọng kính mời ${link.name} đến dự lễ cưới của chúng tôi!`,
+          url: link.url,
+        });
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          window.open(link.url, '_blank');
+        }
+      }
+    } else {
+      window.open(link.url, '_blank');
+    }
   };
 
   const copyToClipboard = async (url: string, id: string) => {
@@ -166,24 +184,24 @@ export default function AdminPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                  className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 overflow-hidden"
                 >
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 w-full">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-bold text-wedding-dark truncate">{link.name}</span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
+                      <span className="font-bold text-wedding-dark truncate block">{link.name}</span>
+                      <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
                         link.side === 'bride' ? 'bg-pink-100 text-pink-600' : 'bg-blue-100 text-blue-600'
                       }`}>
                         {link.side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'}
                       </span>
                     </div>
-                    <p className="text-xs text-wedding-gray truncate font-mono opacity-60">{link.url}</p>
+                    <p className="text-xs text-wedding-gray truncate font-mono opacity-60 block">{link.url}</p>
                   </div>
 
-                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
                     <button
                       onClick={() => copyToClipboard(link.url, link.id)}
-                      className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                      className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition-all ${
                         copiedId === link.id
                           ? 'bg-green-500 text-white'
                           : 'bg-wedding-red/5 text-wedding-red hover:bg-wedding-red hover:text-white'
@@ -192,25 +210,24 @@ export default function AdminPage() {
                       {copiedId === link.id ? (
                         <>
                           <CheckCircle2 size={16} />
-                          <span className="text-sm font-medium">Đã Copy</span>
+                          <span className="text-xs font-medium">Đã Copy</span>
                         </>
                       ) : (
                         <>
                           <Copy size={16} />
-                          <span className="text-sm font-medium">Copy Link</span>
+                          <span className="text-xs font-medium">Copy</span>
                         </>
                       )}
                     </button>
                     
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-wedding-dark hover:text-white transition-all"
-                      title="Mở link"
+                    <button
+                      onClick={() => shareLink(link)}
+                      className="p-2 bg-wedding-dark text-white rounded-lg hover:bg-wedding-red transition-all flex items-center gap-2 px-3"
+                      title="Chia sẻ"
                     >
-                      <ExternalLink size={16} />
-                    </a>
+                      <Share2 size={16} />
+                      <span className="text-xs font-medium sm:hidden">Chia sẻ</span>
+                    </button>
 
                     <button
                       onClick={() => deleteLink(link.id)}

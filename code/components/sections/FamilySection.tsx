@@ -66,45 +66,76 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
           </motion.div>
         )}
 
-        {/* Bố cục 2 cột Nhà Trai - Nhà Gái */}
+        {/* Bố cục 2 cột Nhà Trai - Nhà Gái - Tự động đảo thứ tự theo bên mời */}
         <div className="grid grid-cols-2 gap-2 sm:gap-12 text-center items-start border-t border-wedding-red/10 pt-8 sm:pt-12">
           
-          {/* Nhà Gái */}
-          <div className="space-y-4 sm:space-y-6">
-            <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Gái</h3>
-            <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-              <p className="text-wedding-dark">Ông: <span className="font-bold">{BRIDE.father}</span></p>
-              <p className="text-wedding-dark">Bà: <span className="font-bold">{BRIDE.mother}</span></p>
-            </div>
-            
-            <div className="pt-4">
-              <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">
-                {BRIDE.title}
-              </p>
-               <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                {BRIDE.fullName}
-              </h4>
-            </div>
-          </div>
+          {side === 'bride' ? (
+            <>
+              {/* Nhà Gái hiện bên trái cho thiệp nhà gái */}
+              <div className="space-y-4 sm:space-y-6">
+                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Gái</h3>
+                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
+                  <p className="text-wedding-dark">Ông: <span className="font-bold">{BRIDE.father}</span></p>
+                  <p className="text-wedding-dark">Bà: <span className="font-bold">{BRIDE.mother}</span></p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{BRIDE.title}</p>
+                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
+                    {BRIDE.fullName}
+                  </h4>
+                </div>
+              </div>
 
-          {/* Nhà Trai */}
-          <div className="space-y-4 sm:space-y-6">
-            <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Trai</h3>
-            <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-              <p className="text-wedding-dark">Ông: <span className="font-bold">{GROOM.father}</span></p>
-              <p className="text-wedding-dark">Bà: <span className="font-bold">{GROOM.mother}</span></p>
-            </div>
-            
-            <div className="pt-4">
-              <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">
-                {GROOM.title}
-              </p>
-               <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                {GROOM.fullName}
-              </h4>
-            </div>
-          </div>
+              {/* Nhà Trai hiện bên phải */}
+              <div className="space-y-4 sm:space-y-6">
+                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Trai</h3>
+                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
+                  <p className="text-wedding-dark">Ông: <span className="font-bold">{GROOM.father}</span></p>
+                  <p className="text-wedding-dark">Bà: <span className="font-bold">{GROOM.mother}</span></p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{GROOM.title}</p>
+                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
+                    {GROOM.fullName}
+                  </h4>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Nhà Trai hiện bên trái cho thiệp nhà trai */}
+              <div className="space-y-4 sm:space-y-6">
+                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Trai</h3>
+                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
+                  <p className="text-wedding-dark">Ông: <span className="font-bold">{GROOM.father}</span></p>
+                  <p className="text-wedding-dark">Bà: <span className="font-bold">{GROOM.mother}</span></p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{GROOM.title}</p>
+                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
+                    {GROOM.fullName}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Nhà Gái hiện bên phải */}
+              <div className="space-y-4 sm:space-y-6">
+                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Gái</h3>
+                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
+                  <p className="text-wedding-dark">Ông: <span className="font-bold">{BRIDE.father}</span></p>
+                  <p className="text-wedding-dark">Bà: <span className="font-bold">{BRIDE.mother}</span></p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{BRIDE.title}</p>
+                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
+                    {BRIDE.fullName}
+                  </h4>
+                </div>
+              </div>
+            </>
+          )}
         </div>
+
 
         {/* Thông tin địa điểm - Di chuyển xuống dưới tên */}
         <motion.div
