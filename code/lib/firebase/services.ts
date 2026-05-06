@@ -12,6 +12,8 @@ import {
   updateDoc,
   where,
   increment,
+  onSnapshot,
+  Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '@/lib/config/firebase';
 
@@ -66,6 +68,21 @@ export async function getGuestLinks(): Promise<GuestLinkData[]> {
     id: d.id,
     ...d.data()
   } as GuestLinkData));
+}
+
+export function subscribeToGuestLinks(callback: (links: GuestLinkData[]) => void): Unsubscribe {
+  const q = query(
+    collection(db, 'guest_links'),
+    orderBy('createdAt', 'desc')
+  );
+  
+  return onSnapshot(q, (snapshot) => {
+    const links = snapshot.docs.map((d) => ({
+      id: d.id,
+      ...d.data()
+    } as GuestLinkData));
+    callback(links);
+  });
 }
 
 export async function deleteGuestLink(id: string): Promise<void> {

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Copy, Share2, Trash2, CheckCircle2, UserPlus, Link as LinkIcon, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { addGuestLink, getGuestLinks, deleteGuestLink, GuestLinkData } from '@/lib/firebase/services';
+import { addGuestLink, deleteGuestLink, subscribeToGuestLinks, GuestLinkData } from '@/lib/firebase/services';
 
 export default function AdminPage() {
   const [guestName, setGuestName] = useState('');
@@ -13,40 +13,45 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Khởi tạo từ Firebase
+  // Lắng nghe dữ liệu Real-time từ Firebase
   useEffect(() => {
-    fetchLinks();
-  }, []);
-
-  const fetchLinks = async () => {
-    try {
-      const data = await getGuestLinks();
+    const unsubscribe = subscribeToGuestLinks((data) => {
       setLinks(data);
-    } catch (e) {
-      console.error('Failed to fetch links:', e);
-    } finally {
       setLoading(false);
-    }
-  };
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const generateLink = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!guestName.trim() || submitting) return;
+    const trimmedName = guestName.trim();
+    if (!trimmedName || submitting) return;
+
+    // Kiểm tra trùng lặp
+    const isDuplicate = links.some(
+      (link) => link.name.toLowerCase() === trimmedName.toLowerCase() && link.side === side
+    );
+
+    if (isDuplicate) {
+      alert(`Khách mời "${trimmedName}" đã có link cho bên ${side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'} rồi!`);
+      return;
+    }
 
     setSubmitting(true);
     try {
       const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-      const encodedName = encodeURIComponent(guestName.trim());
+      const encodedName = encodeURIComponent(trimmedName);
       const finalUrl = `${baseUrl}/${side}?to=${encodedName}`;
 
       await addGuestLink({
-        name: guestName.trim(),
+        name: trimmedName,
         side,
         url: finalUrl,
       });
 
       setGuestName('');
-      await fetchLinks(); // Refresh list
+      // Không cần fetchLinks() nữa vì onSnapshot tự cập nhật
     } catch (e) {
       alert('Lỗi khi tạo link. Vui lòng thử lại.');
     } finally {
@@ -183,9 +188,6 @@ export default function AdminPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-lg font-serif font-bold text-wedding-dark">Danh sách link ({links.length})</h2>
-            <button onClick={fetchLinks} className="text-wedding-red text-xs hover:underline flex items-center gap-1">
-               Làm mới
-            </button>
           </div>
           
           <AnimatePresence mode="popLayout">
