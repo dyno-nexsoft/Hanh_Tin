@@ -4,8 +4,9 @@
 import { motion } from 'framer-motion';
 import { WeddingSide } from '@/lib/types';
 import { BRIDE, GROOM, WEDDING_DATA } from '@/lib/config/wedding';
+import { trackGuestLinkView } from '@/lib/firebase/services';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function FamilySection({ side }: { side: WeddingSide }) {
@@ -20,6 +21,13 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
   const searchParams = useSearchParams();
   const guestName = searchParams.get('to');
   const data = WEDDING_DATA[side];
+
+  // Theo dõi lượt xem từ khách mời
+  useEffect(() => {
+    if (guestName) {
+      trackGuestLinkView(guestName, side).catch(console.error);
+    }
+  }, [guestName, side]);
 
   return (
     <section className="bg-wedding-cream-dark py-4 sm:py-24 px-2 sm:px-6 relative overflow-hidden">

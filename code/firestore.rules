@@ -10,5 +10,13 @@ service cloud.firestore {
       allow create: if request.resource.data.name != "" && request.resource.data.message != "";
       allow update, delete: if false;
     }
+
+    // Quản lý khách mời & Tracking
+    match /guest_links/{linkId} {
+      allow read, create, delete: if true;
+      // Cho phép khách mời cập nhật lượt xem, nhưng không cho sửa tên/link
+      allow update: if request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny(['viewCount', 'lastViewedAt']);
+    }
   }
 }

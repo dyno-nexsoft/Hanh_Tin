@@ -1,65 +1,60 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy, Share2, Trash2, CheckCircle2, UserPlus, Link as LinkIcon } from 'lucide-react';
+import { Copy, Share2, Trash2, CheckCircle2, UserPlus, Link as LinkIcon, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-interface GuestLink {
-  id: string;
-  name: string;
-  side: 'bride' | 'groom';
-  url: string;
-  createdAt: number;
-}
+import { addGuestLink, getGuestLinks, deleteGuestLink, GuestLinkData } from '@/lib/firebase/services';
 
 export default function AdminPage() {
   const [guestName, setGuestName] = useState('');
   const [side, setSide] = useState<'bride' | 'groom'>('bride');
-  const [links, setLinks] = useState<GuestLink[]>([]);
+  const [links, setLinks] = useState<GuestLinkData[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
-  // Khởi tạo từ localStorage
+  // Khởi tạo từ Firebase
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem('wedding_guest_links');
-    if (saved) {
-      try {
-        setLinks(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse links from localStorage');
-      }
-    }
+    fetchLinks();
   }, []);
 
-  // Lưu vào localStorage khi thay đổi
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('wedding_guest_links', JSON.stringify(links));
+  const fetchLinks = async () => {
+    try {
+      const data = await getGuestLinks();
+      setLinks(data);
+    } catch (e) {
+      console.error('Failed to fetch links:', e);
+    } finally {
+      setLoading(false);
     }
-  }, [links, mounted]);
-
-  const generateLink = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!guestName.trim()) return;
-
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-    const encodedName = encodeURIComponent(guestName.trim());
-    const finalUrl = `${baseUrl}/${side}?to=${encodedName}`;
-
-    const newLink: GuestLink = {
-      id: Math.random().toString(36).substring(2, 9),
-      name: guestName.trim(),
-      side,
-      url: finalUrl,
-      createdAt: Date.now(),
-    };
-
-    setLinks([newLink, ...links]);
-    setGuestName('');
   };
 
-  const shareLink = async (link: GuestLink) => {
+  const generateLink = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!guestName.trim() || submitting) return;
+
+    setSubmitting(true);
+    try {
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const encodedName = encodeURIComponent(guestName.trim());
+      const finalUrl = `${baseUrl}/${side}?to=${encodedName}`;
+
+      await addGuestLink({
+        name: guestName.trim(),
+        side,
+        url: finalUrl,
+      });
+
+      setGuestName('');
+      await fetchLinks(); // Refresh list
+    } catch (e) {
+      alert('Lỗi khi tạo link. Vui lòng thử lại.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const shareLink = async (link: GuestLinkData) => {
     if (navigator.share) {
       try {
         await navigator.share({
@@ -87,13 +82,24 @@ export default function AdminPage() {
     }
   };
 
-  const deleteLink = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Bạn có chắc muốn xóa link này không?')) {
-      setLinks(links.filter((l) => l.id !== id));
+      try {
+        await deleteGuestLink(id);
+        setLinks(links.filter((l) => l.id !== id));
+      } catch (e) {
+        alert('Không thể xóa. Vui lòng thử lại.');
+      }
     }
   };
 
-  if (!mounted) return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#FDFCFB] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-wedding-red animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#FDFCFB] py-8 px-4 sm:px-6">
@@ -104,7 +110,7 @@ export default function AdminPage() {
             <LinkIcon className="text-wedding-red w-8 h-8" />
           </div>
           <h1 className="text-3xl font-serif font-bold text-wedding-red mb-2">Quản lý Khách mời</h1>
-          <p className="text-wedding-gray text-sm italic">Tạo link mời riêng tư cho từng vị khách</p>
+          <p className="text-wedding-gray text-sm italic">Dữ liệu được đồng bộ hóa với Firebase</p>
         </header>
 
         {/* Form Tạo Link */}
@@ -126,6 +132,7 @@ export default function AdminPage() {
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
                 required
+                disabled={submitting}
               />
             </div>
 
@@ -134,6 +141,7 @@ export default function AdminPage() {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  disabled={submitting}
                   onClick={() => setSide('bride')}
                   className={`py-3 px-4 rounded-xl border transition-all font-medium ${
                     side === 'bride'
@@ -145,6 +153,7 @@ export default function AdminPage() {
                 </button>
                 <button
                   type="button"
+                  disabled={submitting}
                   onClick={() => setSide('groom')}
                   className={`py-3 px-4 rounded-xl border transition-all font-medium ${
                     side === 'groom'
@@ -159,17 +168,23 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full py-4 bg-wedding-dark text-white rounded-xl font-bold hover:bg-wedding-red transition-colors shadow-lg shadow-wedding-dark/10 flex items-center justify-center gap-2"
+              disabled={submitting}
+              className="w-full py-4 bg-wedding-dark text-white rounded-xl font-bold hover:bg-wedding-red transition-colors shadow-lg shadow-wedding-dark/10 flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <LinkIcon size={20} />
-              Tạo Link Mời
+              {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <LinkIcon size={20} />}
+              {submitting ? 'Đang tạo...' : 'Tạo Link Mời'}
             </button>
           </form>
         </motion.div>
 
         {/* Danh sách Link đã tạo */}
         <div className="space-y-4">
-          <h2 className="text-lg font-serif font-bold text-wedding-dark px-2">Danh sách link đã tạo ({links.length})</h2>
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-lg font-serif font-bold text-wedding-dark">Danh sách link ({links.length})</h2>
+            <button onClick={fetchLinks} className="text-wedding-red text-xs hover:underline flex items-center gap-1">
+               Làm mới
+            </button>
+          </div>
           
           <AnimatePresence mode="popLayout">
             {links.length === 0 ? (
@@ -194,13 +209,18 @@ export default function AdminPage() {
                       }`}>
                         {link.side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'}
                       </span>
+                      {link.viewCount && link.viewCount > 0 && (
+                        <span className="shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase bg-green-100 text-green-600">
+                          Đã xem: {link.viewCount}
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-wedding-gray truncate font-mono opacity-60 block">{link.url}</p>
                   </div>
 
                   <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
                     <button
-                      onClick={() => copyToClipboard(link.url, link.id)}
+                      onClick={() => copyToClipboard(link.url, link.id!)}
                       className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition-all ${
                         copiedId === link.id
                           ? 'bg-green-500 text-white'
@@ -230,7 +250,7 @@ export default function AdminPage() {
                     </button>
 
                     <button
-                      onClick={() => deleteLink(link.id)}
+                      onClick={() => handleDelete(link.id!)}
                       className="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
                       title="Xóa"
                     >
