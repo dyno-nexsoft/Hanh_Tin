@@ -1,4 +1,4 @@
-export type WeddingSide = 'hanh' | 'tin';
+export type WeddingSide = 'bride' | 'groom';
 
 export interface Event {
   id: string;

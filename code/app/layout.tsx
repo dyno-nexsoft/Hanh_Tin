@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Great_Vibes, Lora, Inter } from "next/font/google";
 import "./globals.css";
+import { BRIDE, GROOM, WEDDING_DATA } from "@/lib/config/wedding";
+import { format } from "date-fns";
 
 const greatVibes = Great_Vibes({
   subsets: ["latin", "vietnamese"],
@@ -22,16 +24,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const brideData = WEDDING_DATA.bride;
+const weddingDateStr = format(brideData.weddingDate, "dd.MM.yyyy");
+const coupleNames = `${BRIDE.name} & ${GROOM.name}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://hanh-tin-wedding.web.app"),
-  title: "Thiệp Cưới Hạnh & Tín — 06.06.2026",
+  title: `Thiệp Cưới ${coupleNames} — ${weddingDateStr}`,
   description:
-    "Chúng tôi trân trọng kính mời bạn đến chung vui trong ngày lễ thành hôn của Hạnh & Tín. Tiệc cưới tổ chức lúc 17h30 ngày 06/06/2026 tại Tiệc Cưới Tuấn Hà.",
-  keywords: ["thiệp cưới", "Hạnh Tin", "wedding", "đám cưới 2026"],
+    `Chúng tôi trân trọng kính mời bạn đến chung vui trong ngày lễ thành hôn của ${coupleNames}. Tiệc cưới tổ chức lúc ${brideData.events[0].time} ngày ${format(brideData.weddingDate, "dd/MM/yyyy")} tại ${brideData.venue.name}.`,
+  keywords: ["thiệp cưới", coupleNames, "wedding", `đám cưới ${brideData.weddingDate.getFullYear()}`],
   openGraph: {
-    title: "Thiệp Cưới Hạnh & Tín",
-    description: "06.06.2026 — Tiệc Cưới Tuấn Hà",
-    images: ["/images/couple/hero.webp"], // Sửa lại extension nếu cần, trong wedding-data dùng .webp
+    title: `Thiệp Cưới ${coupleNames}`,
+    description: `${weddingDateStr} — ${brideData.venue.name}`,
+    images: ["/images/couple/hero.webp"],
     type: "website",
   },
   icons: {

@@ -19,7 +19,7 @@ export const GROOM: Person = {
 };
 
 export const WEDDING_DATA: Record<WeddingSide, SideData> = {
-  hanh: {
+  bride: {
     sideName: "Nhà Gái",
     ceremonyTitle: "LỄ VU QUY",
     weddingDate: new Date("2026-06-06T17:30:00"),
@@ -50,7 +50,7 @@ export const WEDDING_DATA: Record<WeddingSide, SideData> = {
       qrImage: "/images/qr-hanh.png",
     },
   },
-  tin: {
+  groom: {
     sideName: "Nhà Trai",
     ceremonyTitle: "LỄ THÀNH HÔN",
     weddingDate: new Date("2026-06-13T11:00:00"),

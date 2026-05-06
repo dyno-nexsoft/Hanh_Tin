@@ -1,14 +1,29 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { BRIDE, GROOM } from '@/lib/config/wedding';
 import Image from 'next/image';
+import { useRef } from 'react';
 
 export default function FooterSection() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <footer className="relative h-[85vh] min-h-[700px] flex items-center justify-center overflow-hidden">
-      {/* Background Image with premium treatment */}
-      <div className="absolute inset-0 z-0">
+    <footer 
+      ref={containerRef}
+      className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden"
+    >
+      {/* Background Image with Parallax */}
+      <motion.div 
+        style={{ y }}
+        className="absolute inset-0 z-0 h-[130%] -top-[15%]"
+      >
         <Image
           src="/images/couple/close.webp"
           alt="Thank You Background"
@@ -19,7 +34,7 @@ export default function FooterSection() {
         {/* Sophisticated radial overlay for depth */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.5)_100%)]" />
         <div className="absolute inset-0 bg-black/30" />
-      </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -39,7 +54,7 @@ export default function FooterSection() {
             />
           </div>
 
-          <div className="relative z-10 p-8 sm:p-16">
+          <div className="relative z-10 py-10 sm:py-14 px-6 sm:px-12">
             {/* User-provided Transparent Floral Ornaments - Fine-tuned position */}
             <div className="absolute -top-1 -left-1 w-24 h-24 sm:w-32 sm:h-32 opacity-90 pointer-events-none z-10">
               <Image src="/assets/images/floral-v3-removebg-preview.png" alt="flower" fill className="object-contain" />
