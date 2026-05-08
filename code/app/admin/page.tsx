@@ -213,9 +213,13 @@ export default function AdminPage() {
                       }`}>
                         {link.side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'}
                       </span>
-                      {link.viewCount && link.viewCount > 0 && (
+                      {link.viewCount && link.viewCount > 0 ? (
                         <span className="shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase bg-green-100 text-green-600">
                           Đã xem: {link.viewCount}
+                        </span>
+                      ) : (
+                        <span className="shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase bg-gray-100 text-gray-600">
+                          Chưa xem
                         </span>
                       )}
                     </div>

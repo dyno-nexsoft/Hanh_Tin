@@ -2,20 +2,25 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Chỉ cho phép truy cập đến hết tháng 6 năm 2026
+    function isBeforeJuly2026() {
+      return request.time < timestamp.date(2026, 7, 1);
+    }
+
     // Cho phép bất kỳ ai đọc lời chúc
     // Cho phép tạo lời chúc mới
     // Không cho phép xóa hoặc chỉnh sửa để bảo vệ nội dung
     match /wishes/{wishId} {
-      allow read: if true;
-      allow create: if request.resource.data.name != "" && request.resource.data.message != "";
+      allow read: if isBeforeJuly2026();
+      allow create: if isBeforeJuly2026() && request.resource.data.name != "" && request.resource.data.message != "";
       allow update, delete: if false;
     }
 
     // Quản lý khách mời & Tracking
     match /guest_links/{linkId} {
-      allow read, create, delete: if true;
+      allow read, create, delete: if isBeforeJuly2026();
       // Cho phép khách mời cập nhật lượt xem, nhưng không cho sửa tên/link
-      allow update: if request.resource.data.diff(resource.data).affectedKeys()
+      allow update: if isBeforeJuly2026() && request.resource.data.diff(resource.data).affectedKeys()
         .hasAny(['viewCount', 'lastViewedAt']);
     }
   }
