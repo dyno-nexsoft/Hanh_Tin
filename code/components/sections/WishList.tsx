@@ -56,7 +56,7 @@ export default function WishList({ guestName }: { guestName?: string }) {
       </div>
 
       {wishes.length > 0 ? (
-        <div className="space-y-6 sm:space-y-10 relative">
+        <div className="space-y-3 sm:space-y-6 relative">
           {/* Lớp phủ Gradient 2 bên */}
           <div className="absolute inset-y-0 left-0 w-20 sm:w-60 bg-gradient-to-r from-wedding-cream-dark to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-20 sm:w-60 bg-gradient-to-l from-wedding-cream-dark to-transparent z-10 pointer-events-none"></div>
@@ -64,19 +64,20 @@ export default function WishList({ guestName }: { guestName?: string }) {
           {wishGroups.map((group, rowIdx) => (
             <div key={rowIdx} className="relative flex overflow-hidden">
               <motion.div
-                className="flex gap-6 py-6 px-6"
+                className="flex gap-6 py-6 px-6 will-change-transform"
                 animate={{
-                  x: rowIdx % 2 === 0 ? ["0%", "-50%"] : ["-50%", "0%"],
+                  x: ["0%", "-50%"],
                 }}
                 transition={{
                   duration: 40 + rowIdx * 10, // Mỗi hàng một tốc độ khác nhau
                   ease: "linear",
                   repeat: Infinity,
+                  repeatType: "loop",
                 }}
                 style={{ width: "fit-content" }}
               >
-                {/* Render 3 lần để đảm bảo lặp vô tận mượt mà */}
-                {[...group, ...group, ...group].map((wish, idx) => (
+                {/* Render 2 lần để đảm bảo lặp vô tận mượt mà */}
+                {[...group, ...group].map((wish, idx) => (
                   <div
                     key={idx}
                     className="flex-shrink-0 w-[280px] sm:w-[380px] bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-wedding-red/5 relative hover:shadow-md transition-shadow group cursor-default"
