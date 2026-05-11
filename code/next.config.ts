@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // Cần thiết cho static export trên Firebase
   },
+  trailingSlash: true,
 };
 
 export default nextConfig;
