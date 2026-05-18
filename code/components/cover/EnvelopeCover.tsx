@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { BRIDE, GROOM } from "@/lib/config/wedding";
+import { format } from "date-fns";
+import { BRIDE, GROOM, WEDDING_DATA } from "@/lib/config/wedding";
 
 interface EnvelopeCoverProps {
   readonly onOpen: () => void;
@@ -76,10 +77,10 @@ export default function EnvelopeCover({ onOpen, guestName }: EnvelopeCoverProps)
 
               {/* User-provided Transparent Floral Ornaments - Fine-tuned position */}
               <div className="absolute -top-1 -left-1 w-32 h-32 sm:w-48 sm:h-48 opacity-90 z-10 pointer-events-none">
-                <Image src="/assets/images/floral-v3-removebg-preview.png" alt="flower" fill className="object-contain" />
+                <Image src="/assets/images/floral-v3-removebg-preview.png" alt="flower" fill className="object-contain" priority />
               </div>
               <div className="absolute -bottom-1 -right-1 w-32 h-32 sm:w-48 sm:h-48 opacity-90 z-10 pointer-events-none scale-x-[-1] scale-y-[-1]">
-                <Image src="/assets/images/floral-v3-removebg-preview.png" alt="flower" fill className="object-contain" />
+                <Image src="/assets/images/floral-v3-removebg-preview.png" alt="flower" fill className="object-contain" priority />
               </div>
 
               {/* Couple Names (Above the seal) */}
@@ -100,23 +101,35 @@ export default function EnvelopeCover({ onOpen, guestName }: EnvelopeCoverProps)
               </div>
 
               {/* Guest & Date (Below the seal) */}
-              <div className="absolute bottom-[8%] left-0 w-full text-center z-20 px-4">
+              <div className="absolute bottom-[8%] left-0 w-full text-center z-20 px-6">
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.6 }}
                   className="mb-2"
                 >
-                  <p className="text-white/60 text-[8px] sm:text-[10px] tracking-widest uppercase mb-1">
-                    Thân mời
+                  <p className="text-white/50 text-[8px] sm:text-[9px] tracking-[0.4em] uppercase mb-1.5 font-sans">
+                    THÂN MỜI
                   </p>
-                  <p className="text-white text-lg sm:text-xl font-serif italic">
+                  {/* Tên khách mời — responsive theo độ dài */}
+                  <p
+                    className={`text-white font-serif leading-snug break-words
+                      ${guestName && guestName.length > 25
+                        ? "text-sm sm:text-base"
+                        : guestName && guestName.length > 15
+                        ? "text-base sm:text-lg"
+                        : "text-xl sm:text-2xl"
+                      }
+                    `}
+                    title={guestName}
+                  >
                     {guestName || "Quý khách"}
                   </p>
                 </motion.div>
-                
-                <p className="text-white/80 text-[9px] sm:text-[11px] tracking-[0.4em] font-serif uppercase">
-                  06 . 06 . 2026
+
+                <div className="w-12 h-px bg-white/20 mx-auto mb-2" />
+                <p className="text-white/60 text-[9px] sm:text-[10px] tracking-[0.4em] font-serif uppercase">
+                  {format(WEDDING_DATA.bride.weddingDate, "dd · MM · yyyy")}
                 </p>
               </div>
             </div>
@@ -127,19 +140,19 @@ export default function EnvelopeCover({ onOpen, guestName }: EnvelopeCoverProps)
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ 
-              opacity: [0.2, 0.7, 0.2],
+              opacity: [0.5, 1, 0.5],
             }}
             transition={{ 
-              duration: 4, 
+              duration: 3, 
               repeat: Infinity,
               ease: "easeInOut"
             }}
             className="absolute bottom-12 left-0 w-full text-center z-30"
           >
-            <p className="text-white/50 text-[10px] sm:text-[11px] tracking-[0.5em] uppercase font-serif">
+            <p className="text-white/90 text-[11px] sm:text-xs tracking-[0.4em] uppercase font-serif drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
               Chạm vào thiệp để mở
             </p>
-            <div className="mt-2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent mx-auto" />
+            <div className="mt-2 w-8 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent mx-auto" />
           </motion.div>
         </motion.div>
       )}

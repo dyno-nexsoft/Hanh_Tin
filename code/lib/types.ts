@@ -1,4 +1,9 @@
+import type { Timestamp } from 'firebase/firestore';
+
 export type WeddingSide = 'bride' | 'groom';
+
+/// Theme tối/sáng cho mỗi slide — dùng bởi WeddingPage và InteractionSidebar
+export type WeddingSlideBg = 'light' | 'dark';
 
 export interface Event {
   id: string;
@@ -47,6 +52,7 @@ export interface Person {
 export interface WishData {
   name: string;
   message: string;
-  createdAt?: any;
+  /// Timestamp từ Firestore server — null nếu chưa được persist
+  createdAt?: Timestamp | null;
 }
 

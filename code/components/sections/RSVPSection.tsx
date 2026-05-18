@@ -2,113 +2,97 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Heart } from 'lucide-react';
-import { addWish } from '@/lib/firebase/services';
+import { Heart } from 'lucide-react';
 
 export default function RSVPSection({ guestName }: { guestName?: string }) {
-  const [name, setName] = useState(guestName ?? '');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [vote, setVote] = useState<'yes' | 'no' | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !message) return;
-
-    setLoading(true);
-    try {
-      await addWish({ name, message });
-      setSubmitted(true);
-      setName('');
-      setMessage('');
-    } catch (error) {
-      console.error('Error adding wish: ', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleVote = (choice: 'yes' | 'no') => {
+    setVote(choice);
+    setHasVoted(true);
+    // Here we could also save to Firebase or state
   };
 
   return (
-    <section className="bg-wedding-red py-12 sm:py-20 px-6 text-white overflow-hidden">
-      <div className="max-w-xl mx-auto">
+    <section className="h-full w-full bg-wedding-red text-white flex flex-col justify-center items-center px-6 relative">
+      <div className="max-w-md w-full">
         <div className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-script text-6xl mb-4 text-white">Gửi Lời Chúc</h2>
+            <h2 className="font-script text-6xl mb-4 text-white">Xác nhận tham dự</h2>
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="h-px w-8 bg-white/30"></div>
               <Heart className="w-4 h-4 text-white/50" />
               <div className="h-px w-8 bg-white/30"></div>
             </div>
             
-            <div className="max-w-md mx-auto mt-6">
-              <p className="font-serif text-sm sm:text-base italic text-white/90 leading-relaxed">
-                Mỗi lời chúc, mỗi sự hiện diện đều là điều đáng quý mà chúng tôi luôn trân trọng.
-                Cảm ơn vì bạn đã là một phần trong ngày đặc biệt này.
+            <p className="font-serif text-lg text-white/90 leading-relaxed mb-2">
+              Bạn sẽ đến chung vui cùng chúng mình chứ?
+            </p>
+            {guestName && (
+              <p className="font-serif text-xl font-bold text-white mb-8">
+                {guestName}
               </p>
-            </div>
+            )}
           </motion.div>
         </div>
 
-        {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/10 p-12 rounded-2xl border border-white/20 text-center backdrop-blur-md"
+        <div className="space-y-4">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleVote('yes')}
+            disabled={hasVoted}
+            className={`w-full relative overflow-hidden rounded-xl border-2 transition-all p-4 flex justify-between items-center text-lg font-medium
+              ${hasVoted ? 'border-white/20 bg-white/10' : 'border-white bg-white/20 hover:bg-white/30'}
+              ${vote === 'yes' ? 'ring-2 ring-white ring-offset-2 ring-offset-wedding-red' : ''}
+            `}
           >
-            <Heart className="w-12 h-12 text-white mx-auto mb-6" />
-            <p className="font-serif text-xl italic">Cảm ơn bạn đã gửi lời chúc tốt đẹp nhất đến chúng mình!</p>
-          </motion.div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="space-y-3">
-              <label className="block font-serif text-[10px] uppercase tracking-[0.2em] text-white/60 ml-1">
-                Tên của bạn
-              </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Nhập tên của bạn..."
-                className="w-full bg-white p-4 outline-none border-b-2 border-transparent focus:border-white/50 transition-all font-serif text-base rounded-lg"
-                style={{ color: '#333333' }}
+            <span className="relative z-10">Chắc chắn rồi! 🥳</span>
+            {hasVoted && <span className="relative z-10 font-bold">{vote === 'yes' ? '92%' : '92%'}</span>}
+            {hasVoted && (
+              <motion.div 
+                initial={{ width: 0 }} 
+                animate={{ width: '92%' }} 
+                transition={{ duration: 0.5 }}
+                className="absolute left-0 top-0 bottom-0 bg-white/30" 
               />
-            </div>
+            )}
+          </motion.button>
 
-            <div className="space-y-3">
-              <label className="block font-serif text-[10px] uppercase tracking-[0.2em] text-white/60 ml-1">
-                Lời chúc mừng
-              </label>
-              <textarea
-                required
-                rows={4}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Nhập lời chúc của bạn..."
-                className="w-full bg-white p-4 outline-none border-b-2 border-transparent focus:border-white/50 transition-all font-serif resize-none text-base rounded-lg"
-                style={{ color: '#333333' }}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleVote('no')}
+            disabled={hasVoted}
+            className={`w-full relative overflow-hidden rounded-xl border-2 transition-all p-4 flex justify-between items-center text-lg font-medium
+              ${hasVoted ? 'border-white/20 bg-white/10' : 'border-white/50 bg-white/10 hover:bg-white/20'}
+              ${vote === 'no' ? 'ring-2 ring-white/50 ring-offset-2 ring-offset-wedding-red' : ''}
+            `}
+          >
+            <span className="relative z-10">Tiếc quá, mình bận mất 🥺</span>
+            {hasVoted && <span className="relative z-10 font-bold">{vote === 'yes' ? '8%' : '8%'}</span>}
+            {hasVoted && (
+              <motion.div 
+                initial={{ width: 0 }} 
+                animate={{ width: '8%' }} 
+                transition={{ duration: 0.5 }}
+                className="absolute left-0 top-0 bottom-0 bg-white/10" 
               />
-            </div>
+            )}
+          </motion.button>
+        </div>
 
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-white py-5 text-wedding-red font-sans font-bold uppercase tracking-widest text-xs shadow-xl flex items-center justify-center gap-3 disabled:opacity-50 rounded-lg"
-            >
-              {loading ? 'Đang gửi...' : (
-                <>
-                  <Send className="w-4 h-4" />
-                  Gửi Ngay
-                </>
-              )}
-            </motion.button>
-          </form>
+        {hasVoted && (
+          <motion.p 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className="text-center mt-8 font-serif italic text-white/80"
+          >
+            Cảm ơn bạn đã xác nhận!
+          </motion.p>
         )}
       </div>
     </section>

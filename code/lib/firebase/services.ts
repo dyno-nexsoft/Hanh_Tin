@@ -14,6 +14,7 @@ import {
   increment,
   onSnapshot,
   Unsubscribe,
+  Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/config/firebase';
 
@@ -46,8 +47,9 @@ export interface GuestLinkData {
   side: 'bride' | 'groom';
   url: string;
   viewCount?: number;
-  lastViewedAt?: any;
-  createdAt?: any;
+  /// Timestamp từ Firestore server
+  lastViewedAt?: Timestamp | null;
+  createdAt?: Timestamp | null;
 }
 
 export async function addGuestLink(data: Omit<GuestLinkData, 'createdAt' | 'viewCount' | 'lastViewedAt'>): Promise<void> {
