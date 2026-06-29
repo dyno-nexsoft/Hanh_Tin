@@ -12,6 +12,9 @@ export default function AdminPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
 
   // Lắng nghe dữ liệu Real-time từ Firebase
   useEffect(() => {
@@ -21,6 +24,12 @@ export default function AdminPage() {
     });
 
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('admin_auth') === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
 
   const generateLink = async (e: React.FormEvent) => {
@@ -34,7 +43,7 @@ export default function AdminPage() {
     );
 
     if (isDuplicate) {
-      alert(`Khách mời "${trimmedName}" đã có link cho bên ${side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'} rồi!`);
+      setError(`Khách mời "${trimmedName}" đã có link cho bên ${side === 'bride' ? 'Nhà Gái' : 'Nhà Trai'} rồi!`);
       return;
     }
 
@@ -53,7 +62,7 @@ export default function AdminPage() {
       setGuestName('');
       // Không cần fetchLinks() nữa vì onSnapshot tự cập nhật
     } catch (e) {
-      alert('Lỗi khi tạo link. Vui lòng thử lại.');
+      setError('Lỗi khi tạo link. Vui lòng thử lại.');
     } finally {
       setSubmitting(false);
     }
@@ -85,7 +94,7 @@ export default function AdminPage() {
       setCopiedId(id);
       setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
-      alert('Không thể copy link. Vui lòng thử lại.');
+      setError('Không thể copy link. Vui lòng thử lại.');
     }
   };
 
@@ -93,14 +102,50 @@ export default function AdminPage() {
     if (confirm('Bạn có chắc muốn xóa link này không?')) {
       try {
         await deleteGuestLink(id);
-        setLinks(links.filter((l) => l.id !== id));
       } catch (e) {
-        alert('Không thể xóa. Vui lòng thử lại.');
+        setError('Không thể xóa. Vui lòng thử lại.');
       }
     }
   };
 
-  if (loading) {
+  if (loading || !isAuthenticated) {
+    if (!isAuthenticated) {
+      return (
+        <div className="min-h-screen bg-[#FDFCFB] flex items-center justify-center p-4">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+                sessionStorage.setItem('admin_auth', 'true');
+                setIsAuthenticated(true);
+                setError(null);
+              } else {
+                setError('Mật khẩu không đúng!');
+              }
+            }}
+            className="bg-white p-8 rounded-3xl shadow-xl shadow-wedding-red/5 border border-wedding-red/5 max-w-sm w-full space-y-6 text-center"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-wedding-red/5 mb-2">
+              <LinkIcon className="text-wedding-red w-8 h-8" />
+            </div>
+            <h2 className="text-2xl font-serif text-wedding-red font-bold">Quản Trị Viên</h2>
+            {error && <p className="text-red-500 text-sm bg-red-50 p-2 rounded-lg">{error}</p>}
+            <input
+              type="password"
+              placeholder="Nhập mật khẩu..."
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-wedding-red focus:ring-2 focus:ring-wedding-red/20 transition-all text-wedding-dark text-center"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="w-full py-3 bg-wedding-red text-white rounded-xl font-bold hover:bg-wedding-red-accent transition-colors">
+              Đăng Nhập
+            </button>
+          </form>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-[#FDFCFB] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-wedding-red animate-spin" />
@@ -119,6 +164,22 @@ export default function AdminPage() {
           <h1 className="text-3xl font-serif font-bold text-wedding-red mb-2">Quản lý Khách mời</h1>
           <p className="text-wedding-gray text-sm italic">Dữ liệu được đồng bộ hóa với Firebase</p>
         </header>
+
+        <AnimatePresence>
+          {error && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 flex justify-between items-center"
+            >
+              <span className="text-sm font-medium">{error}</span>
+              <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600 text-xl font-bold px-2">
+                &times;
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Form Tạo Link */}
         <motion.div 
