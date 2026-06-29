@@ -49,8 +49,8 @@ export function useMusic(src: string) {
 
   const play = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.play().catch((err) => {
-        console.log("Autoplay blocked or error:", err);
+      audioRef.current.play().catch(() => {
+        // Autoplay blocked by browser policy, wait for user interaction
       });
     }
   }, []);

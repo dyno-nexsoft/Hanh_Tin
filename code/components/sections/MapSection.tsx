@@ -1,6 +1,6 @@
 'use client';
 
-/// Section bản đồ địa điểm — Thiết kế tràn viền (Full-width) cho Mobile.
+/// Section bản đồ địa điểm — Apple Futuristic
 import { motion } from 'framer-motion';
 import { MapPin, Navigation } from 'lucide-react';
 import { WeddingSide } from '@/lib/types';
@@ -11,58 +11,45 @@ export default function MapSection({ side }: { side: WeddingSide }) {
 
   return (
     <section
-      className="py-16 sm:py-24"
-      style={{ background: 'linear-gradient(180deg, #FDF8F0 0%, white 100%)' }}
+      className="h-full w-full flex flex-col justify-center py-6 px-4 bg-[#F5F5F7] overflow-y-auto"
     >
-      <div className="max-w-3xl mx-auto">
-        {/* Header - Giữ padding để text không sát lề quá */}
+      <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center shrink-0">
+        {/* Header */}
         <motion.div
-          className="text-center mb-10 px-6"
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
         >
           <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-full bg-wedding-red/5">
-              <MapPin className="w-6 h-6 text-wedding-red" />
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm border border-black/5">
+              <MapPin className="w-5 h-5 text-[#FF3B30]" />
             </div>
           </div>
           
-          <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase mb-3 text-wedding-red/60 font-serif font-bold">
+          <p className="font-sans text-[11px] font-bold tracking-[0.2em] uppercase text-[#86868B] mb-2">
             Địa Điểm Tổ Chức
           </p>
           
-          <h2
-            className="text-3xl sm:text-5xl mb-4 leading-[1.2] text-balance"
-            style={{ fontFamily: 'var(--font-great-vibes)', color: '#8B0000' }}
-          >
+          <h2 className="font-sans text-3xl sm:text-5xl font-bold tracking-tighter text-[#1D1D1F] mb-3">
             {venue.name}
           </h2>
           
-          <p
-            className="text-sm sm:text-base italic max-w-md mx-auto leading-relaxed text-balance opacity-80"
-            style={{ color: '#6B5B5B', fontFamily: 'var(--font-lora)' }}
-          >
+          <p className="font-sans text-[15px] font-medium text-[#1D1D1F] max-w-md mx-auto leading-relaxed">
             {venue.address}
           </p>
-
-          <div className="flex items-center gap-3 justify-center mt-6">
-            <div className="h-px flex-1 max-w-[60px] sm:max-w-[100px]" style={{ background: 'linear-gradient(to right, transparent, #D4AF37)' }} />
-            <span style={{ color: '#D4AF37' }}>❧</span>
-            <div className="h-px flex-1 max-w-[60px] sm:max-w-[100px]" style={{ background: 'linear-gradient(to left, transparent, #D4AF37)' }} />
-          </div>
         </motion.div>
 
-        {/* Map embed - TRÀN VIỀN trên Mobile, có bo góc trên Desktop */}
+        {/* Map embed Card */}
         <motion.div
-          className="sm:rounded-2xl overflow-hidden shadow-2xl sm:border-4 sm:border-white sm:mx-6"
-          initial={{ opacity: 0, scale: 0.97 }}
+          className="w-full bg-white rounded-[32px] sm:rounded-[40px] p-2 shadow-sm border border-black/5 overflow-hidden"
+          initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         >
-          <div className="relative aspect-[4/3] sm:aspect-video w-full">
+          <div className="relative aspect-[4/3] sm:aspect-[21/9] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden">
             <iframe
               src={venue.embedUrl}
               width="100%"
@@ -72,25 +59,26 @@ export default function MapSection({ side }: { side: WeddingSide }) {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title={`Bản đồ ${venue.name}`}
+              className="grayscale-[30%] contrast-[1.1] opacity-90" // Slight tweak to make map look more "Apple Maps" like
             />
           </div>
         </motion.div>
 
-        {/* CTA Button */}
+        {/* Navigate button Apple iOS Style */}
         <motion.div
-          className="text-center mt-10 px-6"
+          className="mt-8 w-full sm:w-auto"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
         >
           <a
             href={venue.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#7B171B] text-white px-10 py-5 rounded-xl sm:rounded-full font-sans font-bold uppercase tracking-widest text-xs shadow-lg hover:bg-[#8B0000] transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full font-sans font-bold text-[15px] transition-all bg-[#0071E3] text-white hover:bg-[#0077ED] active:scale-[0.98] shadow-sm"
           >
-            <Navigation className="w-4 h-4 fill-white/20" />
+            <Navigation className="w-4 h-4" />
             Mở Bản Đồ & Chỉ Đường
           </a>
         </motion.div>

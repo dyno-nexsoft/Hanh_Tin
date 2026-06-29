@@ -16,7 +16,7 @@ jobs:
       
       - name: Install & Build
         working-directory: code
-        run: npm ci && npm run build
+        run: npm install && npm run build
         env:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
           NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN }}

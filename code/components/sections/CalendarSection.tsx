@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import { WeddingSide } from '@/lib/types';
 import { WEDDING_DATA } from '@/lib/config/wedding';
+import { useCountdown } from '@/lib/hooks/useCountdown';
 
 export default function CalendarSection({ side }: { side: WeddingSide }) {
   const data = WEDDING_DATA[side];
@@ -11,73 +12,109 @@ export default function CalendarSection({ side }: { side: WeddingSide }) {
   const monthName = data.weddingDate.toLocaleString('vi-VN', { month: 'long' });
   const year = data.weddingDate.getFullYear();
   
-  // Calculate total days in month
+  const { days: cdDays, hours, minutes, seconds } = useCountdown(data.weddingDate);
+  const timeItems = [
+    { label: 'Ngày', value: cdDays },
+    { label: 'Giờ', value: hours },
+    { label: 'Phút', value: minutes },
+    { label: 'Giây', value: seconds },
+  ];
+  
   const totalDays = new Date(year, data.weddingDate.getMonth() + 1, 0).getDate();
   const days = Array.from({ length: totalDays }, (_, i) => i + 1);
-
-  // Calculate empty slots before the first day of the month (optional but good)
-  // For simplicity I'll stick to a basic grid or fix the first day offset.
-  const firstDayOfMonth = new Date(year, data.weddingDate.getMonth(), 1).getDay(); // 0 is Sunday
-  const emptySlots = firstDayOfMonth === 0 ? 0 : firstDayOfMonth; // Simplified for VN calendar (CN is first)
+  const firstDayOfMonth = new Date(year, data.weddingDate.getMonth(), 1).getDay();
+  const emptySlots = firstDayOfMonth === 0 ? 0 : firstDayOfMonth;
 
   return (
-    <section className="bg-white py-10 sm:py-20 px-4 sm:px-6">
-      {/* Giảm padding mobile từ p-10 xuống p-6 để tăng không gian cho chữ */}
-      <div className="max-w-md mx-auto p-6 sm:p-10 border border-wedding-red/10 shadow-sm relative bg-wedding-cream-dark/10">
+    <section
+      className="h-full w-full flex flex-col items-center justify-center py-6 px-4 bg-[#F5F5F7] overflow-y-auto"
+    >
+      <div className="w-full max-w-xl flex flex-col gap-4 relative z-10 shrink-0">
         
-        {/* Tiêu đề lịch */}
-        <div className="text-center mb-8 sm:mb-10">
-          <p className="font-script text-4xl sm:text-5xl text-wedding-red mb-2 capitalize">{monthName}</p>
-          <div className="flex items-center justify-center gap-4">
-            <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
-            <p className="font-serif text-[11px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.5em] text-wedding-dark/60">{year}</p>
-            <div className="h-px w-6 sm:w-8 bg-wedding-red/20"></div>
+        {/* Calendar Card iOS Style */}
+        <div
+          className="w-full bg-white rounded-[32px] sm:rounded-[40px] p-6 sm:p-8 shadow-sm"
+          style={{ border: '1px solid rgba(0,0,0,0.05)' }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-sans text-3xl font-bold tracking-tight text-[#1D1D1F] capitalize">
+              {monthName}
+            </h2>
+            <div className="bg-[#F5F5F7] px-4 py-1.5 rounded-full">
+              <span className="font-sans font-bold text-sm text-[#0071E3] tracking-wide">
+                {year}
+              </span>
+            </div>
+          </div>
+
+          {/* Day headers */}
+          <div className="grid grid-cols-7 gap-1 mb-4">
+            {['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'].map((day, idx) => (
+              <span
+                key={day}
+                className="text-center font-sans text-[11px] font-bold uppercase tracking-wider"
+                style={{ color: idx === 0 ? '#FF3B30' : '#86868B' }}
+              >
+                {day}
+              </span>
+            ))}
+          </div>
+
+          {/* Calendar grid */}
+          <div className="grid grid-cols-7 gap-y-2">
+            {Array.from({ length: emptySlots }).map((_, i) => (
+              <div key={`empty-${i}`} className="col-span-1" />
+            ))}
+            
+            {days.map((day) => (
+              <div key={day} className="relative flex items-center justify-center h-10 sm:h-12">
+                {day === weddingDay && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#FF3B30] rounded-full shadow-sm" />
+                  </motion.div>
+                )}
+                <span
+                  className={`relative z-10 font-sans text-sm sm:text-[15px] font-semibold ${
+                    day === weddingDay ? 'text-white' : 'text-[#1D1D1F]'
+                  }`}
+                >
+                  {day}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Header các thứ trong tuần */}
-        <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-6 text-center">
-          {['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'].map((day, idx) => (
-            <span key={day} className={`text-[11px] font-bold font-serif ${idx === 0 ? 'text-wedding-red' : 'text-wedding-gray'}`}>
-              {day}
-            </span>
-          ))}
-        </div>
-
-        {/* Các ngày trong tháng */}
-        <div className="grid grid-cols-7 gap-y-2 sm:gap-y-4 text-center">
-          {Array.from({ length: emptySlots }).map((_, i) => (
-             <div key={`empty-${i}`} className="col-span-1"></div>
-          ))}
-          
-          {days.map((day) => (
-            <div key={day} className="relative flex items-center justify-center h-8 sm:h-10">
-              {day === weddingDay && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
-                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-wedding-red/20 fill-wedding-red/10" />
-                </motion.div>
-              )}
-              <span className={`relative z-10 font-serif text-sm ${day === weddingDay ? 'text-wedding-red font-bold text-lg' : 'text-wedding-dark'}`}>
-                {day}
+        {/* Countdown Widget iOS Style */}
+        <div className="grid grid-cols-4 gap-3 sm:gap-4 w-full">
+          {timeItems.map((item) => (
+            <div
+              key={item.label}
+              className="bg-white rounded-[24px] p-4 flex flex-col items-center justify-center shadow-sm"
+              style={{ border: '1px solid rgba(0,0,0,0.05)' }}
+            >
+              <span className="font-sans text-2xl sm:text-3xl font-bold tracking-tighter text-[#1D1D1F] tabular-nums mb-1">
+                {String(item.value).padStart(2, '0')}
+              </span>
+              <span className="font-sans text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#86868B]">
+                {item.label}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="mt-10 sm:mt-12 text-center">
-          {/* Tối ưu mobile: text-xl/2xl và whitespace-nowrap để không bị gãy dòng */}
-          <p className="font-script text-xl sm:text-3xl text-wedding-red opacity-80 whitespace-nowrap">
-            Hẹn gặp bạn tại buổi tiệc lúc {data.events[0].time}
+        {/* Message */}
+        <div className="text-center mt-4">
+          <p className="font-sans text-[15px] font-semibold text-[#1D1D1F]">
+            Hẹn gặp bạn lúc <span className="text-[#0071E3]">{data.events[0].time}</span>
           </p>
         </div>
-        
-        {/* Trang trí góc */}
-        <div className="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-wedding-red/20"></div>
-        <div className="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-wedding-red/20"></div>
+
       </div>
     </section>
   );
