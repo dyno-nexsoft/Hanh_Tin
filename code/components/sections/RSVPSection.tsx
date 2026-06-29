@@ -1,115 +1,98 @@
 'use client';
 
+/// Section xác nhận tham dự (RSVP) — Apple Futuristic
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Heart } from 'lucide-react';
-import { addWish } from '@/lib/firebase/services';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle2, XCircle } from 'lucide-react';
 
 export default function RSVPSection({ guestName }: { guestName?: string }) {
-  const [name, setName] = useState(guestName ?? '');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [vote, setVote] = useState<'yes' | 'no' | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !message) return;
-
-    setLoading(true);
-    try {
-      await addWish({ name, message });
-      setSubmitted(true);
-      setName('');
-      setMessage('');
-    } catch (error) {
-      console.error('Error adding wish: ', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleVote = (choice: 'yes' | 'no') => {
+    setVote(choice);
+    setHasVoted(true);
+    // TODO: integrate with Firebase if real RSVP tracking is needed
   };
 
   return (
-    <section className="bg-wedding-red py-12 sm:py-20 px-6 text-white overflow-hidden">
-      <div className="max-w-xl mx-auto">
-        <div className="text-center mb-12">
+    <section className="h-full w-full bg-[#F5F5F7] flex flex-col justify-center items-center px-4 py-6 overflow-y-auto">
+      <div
+        className="w-full max-w-xl bg-white rounded-[32px] sm:rounded-[40px] shadow-sm flex flex-col p-6 sm:p-10 shrink-0 relative overflow-hidden"
+        style={{ border: '1px solid rgba(0,0,0,0.05)' }}
+      >
+        <div className="text-center mb-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-script text-6xl mb-4 text-white">Gửi Lời Chúc</h2>
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="h-px w-8 bg-white/30"></div>
-              <Heart className="w-4 h-4 text-white/50" />
-              <div className="h-px w-8 bg-white/30"></div>
-            </div>
+            <p className="font-sans text-[11px] font-bold tracking-[0.2em] uppercase text-[#D4AF37] mb-3">
+              Xác Nhận Tham Dự
+            </p>
+            <h2 className="font-sans text-3xl sm:text-4xl font-bold tracking-tight text-[#1D1D1F] mb-4">
+              RSVP
+            </h2>
             
-            <div className="max-w-md mx-auto mt-6">
-              <p className="font-serif text-sm sm:text-base italic text-white/90 leading-relaxed">
-                Mỗi lời chúc, mỗi sự hiện diện đều là điều đáng quý mà chúng tôi luôn trân trọng.
-                Cảm ơn vì bạn đã là một phần trong ngày đặc biệt này.
+            <p className="font-sans text-[15px] text-[#1D1D1F] font-medium leading-relaxed">
+              Bạn sẽ đến chung vui cùng chúng mình chứ?
+            </p>
+            {guestName && (
+              <p className="font-sans text-lg font-bold text-[#0071E3] mt-2">
+                {guestName}
               </p>
-            </div>
+            )}
           </motion.div>
         </div>
 
-        {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/10 p-12 rounded-2xl border border-white/20 text-center backdrop-blur-md"
-          >
-            <Heart className="w-12 h-12 text-white mx-auto mb-6" />
-            <p className="font-serif text-xl italic">Cảm ơn bạn đã gửi lời chúc tốt đẹp nhất đến chúng mình!</p>
-          </motion.div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="space-y-3">
-              <label className="block font-serif text-[10px] uppercase tracking-[0.2em] text-white/60 ml-1">
-                Tên của bạn
-              </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Nhập tên của bạn..."
-                className="w-full bg-white p-4 outline-none border-b-2 border-transparent focus:border-white/50 transition-all font-serif text-base rounded-lg"
-                style={{ color: '#333333' }}
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="block font-serif text-[10px] uppercase tracking-[0.2em] text-white/60 ml-1">
-                Lời chúc mừng
-              </label>
-              <textarea
-                required
-                rows={4}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Nhập lời chúc của bạn..."
-                className="w-full bg-white p-4 outline-none border-b-2 border-transparent focus:border-white/50 transition-all font-serif resize-none text-base rounded-lg"
-                style={{ color: '#333333' }}
-              />
-            </div>
-
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full bg-white py-5 text-wedding-red font-sans font-bold uppercase tracking-widest text-xs shadow-xl flex items-center justify-center gap-3 disabled:opacity-50 rounded-lg"
+        <AnimatePresence mode="wait">
+          {!hasVoted ? (
+            <motion.div 
+              key="vote-buttons"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex flex-col sm:flex-row gap-4"
             >
-              {loading ? 'Đang gửi...' : (
+              <button
+                onClick={() => handleVote('yes')}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-full font-sans font-semibold text-[15px] transition-all bg-[#0071E3] text-white hover:bg-[#0077ED] active:scale-[0.98] shadow-sm"
+              >
+                <CheckCircle2 size={18} />
+                Chắc chắn rồi! 🥳
+              </button>
+
+              <button
+                onClick={() => handleVote('no')}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-full font-sans font-semibold text-[15px] transition-all bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] active:scale-[0.98] border border-black/5"
+              >
+                <XCircle size={18} />
+                Tiếc quá, mình bận 🥺
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="vote-success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-center justify-center py-6 bg-[#FAF8F5] rounded-[24px] border border-[#D4AF37]/20"
+            >
+              {vote === 'yes' ? (
                 <>
-                  <Send className="w-4 h-4" />
-                  Gửi Ngay
+                  <CheckCircle2 size={40} className="text-[#34C759] mb-3" />
+                  <p className="font-sans text-[17px] font-bold text-[#1D1D1F]">Tuyệt vời!</p>
+                  <p className="font-sans text-[14px] text-[#86868B] mt-1">Hẹn gặp bạn tại tiệc cưới nhé.</p>
+                </>
+              ) : (
+                <>
+                  <XCircle size={40} className="text-[#86868B] mb-3" />
+                  <p className="font-sans text-[17px] font-bold text-[#1D1D1F]">Rất tiếc!</p>
+                  <p className="font-sans text-[14px] text-[#86868B] mt-1">Cảm ơn bạn đã phản hồi. Hẹn dịp khác nhé.</p>
                 </>
               )}
-            </motion.button>
-          </form>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

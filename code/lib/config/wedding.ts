@@ -22,14 +22,14 @@ export const WEDDING_DATA: Record<WeddingSide, SideData> = {
   bride: {
     sideName: "Nhà Gái",
     ceremonyTitle: "LỄ VU QUY",
-    weddingDate: new Date("2026-06-06T17:30:00"),
-    lunarDate: "Ngày 21 tháng 04 năm Bính Ngọ",
+    weddingDate: new Date("2026-10-06T17:30:00"),
+    lunarDate: "Ngày 26 tháng 08 năm Bính Ngọ",
     events: [
       {
         id: "party-hanh",
         title: "Tiệc Mừng Nhà Gái",
         time: "17:30",
-        date: "Thứ Bảy, 06 tháng 06 năm 2026",
+        date: "Thứ Ba, 06 tháng 10 năm 2026",
         venue: "Tiệc Cưới Tuấn Hà",
         address: "Cam Lâm, Khánh Hòa",
         icon: "🥂",
@@ -53,14 +53,14 @@ export const WEDDING_DATA: Record<WeddingSide, SideData> = {
   groom: {
     sideName: "Nhà Trai",
     ceremonyTitle: "LỄ THÀNH HÔN",
-    weddingDate: new Date("2026-06-13T11:00:00"),
-    lunarDate: "Ngày 28 tháng 04 năm Bính Ngọ",
+    weddingDate: new Date("2026-10-13T11:00:00"),
+    lunarDate: "Ngày 04 tháng 09 năm Bính Ngọ",
     events: [
       {
         id: "party-tin",
         title: "Tiệc Mừng Nhà Trai",
         time: "11:00",
-        date: "Thứ Bảy, 13 tháng 06 năm 2026",
+        date: "Thứ Ba, 13 tháng 10 năm 2026",
         venue: "Nhà Hàng Tiệc Cưới Công Quang",
         address: "Đại Lãnh, Khánh Hòa",
         icon: "🥂",

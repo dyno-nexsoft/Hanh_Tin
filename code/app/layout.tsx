@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Great_Vibes, Lora, Inter } from "next/font/google";
+import { Great_Vibes, Lora, Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { BRIDE, GROOM, WEDDING_DATA } from "@/lib/config/wedding";
 import { format } from "date-fns";
@@ -21,6 +21,15 @@ const lora = Lora({
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+/// Cormorant Garamond — ultra-thin luxury serif cho subheadings và display text
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant-garamond",
   display: "swap",
 });
 
@@ -58,7 +67,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${greatVibes.variable} ${lora.variable} ${inter.variable}`}
+      className={`${greatVibes.variable} ${lora.variable} ${inter.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased">{children}</body>

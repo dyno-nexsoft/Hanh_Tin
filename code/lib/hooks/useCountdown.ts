@@ -27,11 +27,23 @@ export function useCountdown(targetDate: Date): TimeLeft {
     };
   };
 
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculate);
+  // Initialize with zeros to avoid hydration mismatch
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ 
+    days: 0, 
+    hours: 0, 
+    minutes: 0, 
+    seconds: 0, 
+    isOver: false 
+  });
 
   useEffect(() => {
+    // Set initial value on client
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTimeLeft(calculate());
+    
     const timer = setInterval(() => setTimeLeft(calculate()), 1000);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetDate]);
 
   return timeLeft;

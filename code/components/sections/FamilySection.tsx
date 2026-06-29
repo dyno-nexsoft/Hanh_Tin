@@ -1,13 +1,13 @@
 'use client';
 
-/// Section thông tin gia đình — Hoàn thiện chuẩn thiệp giấy Việt Nam (Vu Quy/Thành Hôn + Ngày Âm).
+/// Section thông tin gia đình — Apple Editorial (Blend of minimal Apple & Wedding Elegance)
 import { motion } from 'framer-motion';
 import { WeddingSide } from '@/lib/types';
 import { BRIDE, GROOM, WEDDING_DATA } from '@/lib/config/wedding';
 import { trackGuestLinkView } from '@/lib/firebase/services';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
-import Image from 'next/image';
+import Typewriter from '@/components/shared/Typewriter';
 
 export default function FamilySection({ side }: { side: WeddingSide }) {
   return (
@@ -22,7 +22,6 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
   const guestName = searchParams.get('to');
   const data = WEDDING_DATA[side];
 
-  // Theo dõi lượt xem từ khách mời
   useEffect(() => {
     if (guestName) {
       trackGuestLinkView(guestName, side).catch(console.error);
@@ -30,155 +29,163 @@ function FamilySectionContent({ side }: { side: WeddingSide }) {
   }, [guestName, side]);
 
   return (
-    <section className="bg-wedding-cream-dark py-4 sm:py-24 px-2 sm:px-6 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
-          <Image src="/assets/images/song-hy-gold.webp" alt="bg" fill className="object-contain" />
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10 bg-white/40 px-2 py-4 sm:p-12 rounded-[2rem] border border-wedding-red/5 shadow-inner">
-        
-        {/* Tên Lễ (Vu Quy hoặc Thành Hôn) */}
+    <section
+      className="h-full w-full flex flex-col items-center justify-center overflow-y-auto overflow-x-hidden bg-[#F5F5F7] py-6 px-4"
+    >
+      <div
+        className="w-full max-w-4xl bg-white rounded-[32px] sm:rounded-[40px] shadow-sm flex flex-col p-6 sm:p-10 my-auto shrink-0 relative"
+        style={{ border: '1px solid rgba(0,0,0,0.05)' }}
+      >
+        {/* Apple Style Badge, but more elegant */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-4 sm:mb-10"
+          className="mx-auto border border-[#D4AF37]/30 text-[#D4AF37] px-5 py-2 rounded-full font-sans font-semibold text-[11px] tracking-[0.2em] uppercase mb-8 sm:mb-10 bg-[#D4AF37]/5"
         >
-          <div className="relative w-16 h-16 mx-auto mb-4 opacity-90 rounded-full overflow-hidden border border-wedding-red/10 bg-white/50 p-2 shadow-sm">
-            <Image src="/assets/images/song-hy-gold.webp" alt="囍" fill className="object-contain" />
-          </div>
-          <h2 className="text-wedding-red font-serif text-2xl sm:text-4xl tracking-[0.3em] font-bold uppercase mb-2">
-            {data.ceremonyTitle}
-          </h2>
-          <div className="h-px w-24 bg-gradient-to-r from-transparent via-wedding-red/30 to-transparent mx-auto"></div>
+          {data.ceremonyTitle}
         </motion.div>
 
-        {/* Lời chào khách mời */}
+        {/* Guest greeting */}
         {guestName && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-6 sm:mb-12"
+            className="text-center mb-8 sm:mb-10"
           >
-            <p className="text-wedding-gray text-[11px] sm:text-xs tracking-[0.2em] uppercase mb-1">Trân trọng kính mời</p>
-            <p className="text-wedding-red font-serif text-xl sm:text-3xl italic font-bold px-4 leading-tight">
-              {guestName}
+            <p className="font-sans text-[11px] font-semibold tracking-[0.2em] uppercase text-[#86868B] mb-2">
+              Kính Mời
             </p>
-            <p className="text-wedding-gray text-[13px] sm:text-sm mt-3 max-w-[280px] sm:max-w-none mx-auto opacity-80">
-              Đến dự buổi tiệc rượu thân mật chung vui cùng gia đình chúng tôi:
+            <p className="font-script text-4xl sm:text-5xl text-[#D4AF37] tracking-normal px-4 leading-tight mb-2">
+              <Typewriter text={guestName} delay={600} speed={50} />
+            </p>
+            <p className="font-sans text-[13px] sm:text-sm font-medium text-[#1D1D1F] max-w-xs mx-auto">
+              Đến dự buổi tiệc rượu thân mật chung vui cùng gia đình chúng tôi tại:
             </p>
           </motion.div>
         )}
 
-        {/* Bố cục 2 cột Nhà Trai - Nhà Gái - Tự động đảo thứ tự theo bên mời */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-12 text-center items-start border-t border-wedding-red/10 pt-8 sm:pt-12">
-          
+        {/* Venue & Date */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-[#FAF8F5] rounded-3xl p-6 flex flex-col justify-center text-center md:text-left border border-[#D4AF37]/10"
+          >
+            <p className="font-sans text-[11px] font-bold tracking-[0.1em] uppercase text-[#D4AF37] mb-2">
+              Thời Gian
+            </p>
+            <p className="font-sans text-[17px] sm:text-[19px] font-bold text-[#1D1D1F] tracking-tight mb-1 text-balance leading-tight">
+              {data.events[0].date}
+            </p>
+            <p className="font-sans text-[13px] font-medium text-[#86868B]">
+              Lúc {data.events[0].time}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-[#FAF8F5] rounded-3xl p-6 flex flex-col justify-center text-center md:text-left border border-[#D4AF37]/10"
+          >
+            <p className="font-sans text-[11px] font-bold tracking-[0.1em] uppercase text-[#D4AF37] mb-2">
+              Địa Điểm
+            </p>
+            <p className="font-sans text-xl font-bold text-[#1D1D1F] tracking-tight leading-tight mb-1">
+              {data.venue.name}
+            </p>
+            <p className="font-sans text-[13px] font-medium text-[#86868B] line-clamp-2">
+              {data.venue.address}
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Family columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {side === 'bride' ? (
             <>
-              {/* Nhà Gái hiện bên trái cho thiệp nhà gái */}
-              <div className="space-y-4 sm:space-y-6">
-                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Gái</h3>
-                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-                  <p className="text-wedding-dark">Ông: <span className="font-bold">{BRIDE.father}</span></p>
-                  <p className="text-wedding-dark">Bà: <span className="font-bold">{BRIDE.mother}</span></p>
-                </div>
-                <div className="pt-4">
-                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{BRIDE.title}</p>
-                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                    {BRIDE.fullName}
-                  </h4>
-                </div>
-              </div>
-
-              {/* Nhà Trai hiện bên phải */}
-              <div className="space-y-4 sm:space-y-6">
-                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Trai</h3>
-                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-                  <p className="text-wedding-dark">Ông: <span className="font-bold">{GROOM.father}</span></p>
-                  <p className="text-wedding-dark">Bà: <span className="font-bold">{GROOM.mother}</span></p>
-                </div>
-                <div className="pt-4">
-                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{GROOM.title}</p>
-                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                    {GROOM.fullName}
-                  </h4>
-                </div>
-              </div>
+              <_FamilyColumn
+                side="Nhà Gái"
+                father={BRIDE.father}
+                mother={BRIDE.mother}
+                title={BRIDE.title}
+                fullName={BRIDE.fullName}
+              />
+              <_FamilyColumn
+                side="Nhà Trai"
+                father={GROOM.father}
+                mother={GROOM.mother}
+                title={GROOM.title}
+                fullName={GROOM.fullName}
+              />
             </>
           ) : (
             <>
-              {/* Nhà Trai hiện bên trái cho thiệp nhà trai */}
-              <div className="space-y-4 sm:space-y-6">
-                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Trai</h3>
-                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-                  <p className="text-wedding-dark">Ông: <span className="font-bold">{GROOM.father}</span></p>
-                  <p className="text-wedding-dark">Bà: <span className="font-bold">{GROOM.mother}</span></p>
-                </div>
-                <div className="pt-4">
-                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{GROOM.title}</p>
-                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                    {GROOM.fullName}
-                  </h4>
-                </div>
-              </div>
-
-              {/* Nhà Gái hiện bên phải */}
-              <div className="space-y-4 sm:space-y-6">
-                <h3 className="text-wedding-red/50 font-serif text-[11px] sm:text-xs tracking-widest uppercase">Nhà Gái</h3>
-                <div className="space-y-2 font-serif text-[11px] sm:text-lg">
-                  <p className="text-wedding-dark">Ông: <span className="font-bold">{BRIDE.father}</span></p>
-                  <p className="text-wedding-dark">Bà: <span className="font-bold">{BRIDE.mother}</span></p>
-                </div>
-                <div className="pt-4">
-                  <p className="text-wedding-red/60 text-[9px] sm:text-xs tracking-widest uppercase mb-1 italic">{BRIDE.title}</p>
-                  <h4 className="text-xl sm:text-4xl font-script text-wedding-red tracking-tighter sm:tracking-normal leading-tight">
-                    {BRIDE.fullName}
-                  </h4>
-                </div>
-              </div>
+              <_FamilyColumn
+                side="Nhà Trai"
+                father={GROOM.father}
+                mother={GROOM.mother}
+                title={GROOM.title}
+                fullName={GROOM.fullName}
+              />
+              <_FamilyColumn
+                side="Nhà Gái"
+                father={BRIDE.father}
+                mother={BRIDE.mother}
+                title={BRIDE.title}
+                fullName={BRIDE.fullName}
+              />
             </>
           )}
         </div>
-
-
-        {/* Thông tin địa điểm - Di chuyển xuống dưới tên */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-8 sm:mt-12"
-        >
-          <p className="text-wedding-gray text-[11px] sm:text-xs tracking-[0.1em] uppercase mb-2 opacity-80">Tại địa điểm:</p>
-          <p className="text-lg sm:text-2xl font-serif font-bold text-wedding-red leading-tight">
-            {data.venue.name}
-          </p>
-          <p className="text-wedding-dark font-serif text-[13px] sm:text-base mt-1 opacity-90">
-            {data.venue.address}
-          </p>
-        </motion.div>
-
-        {/* Ngày Âm Lịch - Đặt ở cuối phần giới thiệu */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-6 sm:mt-16 text-center border-t border-wedding-red/10 pt-8"
-        >
-          <p className="text-wedding-red font-serif text-xs sm:text-sm tracking-widest uppercase mb-1">
-            Vào lúc {data.events[0].time}
-          </p>
-          <p className="text-wedding-red font-serif text-sm sm:text-lg font-bold">
-            {data.events[0].date}
-          </p>
-          <p className="text-wedding-gray font-serif text-[11px] sm:text-xs italic mt-1">
-            (Nhằm {data.lunarDate})
-          </p>
-        </motion.div>
       </div>
     </section>
+  );
+}
+
+// ─── Private ─────────────────────────────────────────────────────────────
+
+interface FamilyColumnProps {
+  side: string;
+  father: string;
+  mother: string;
+  title: string;
+  fullName: string;
+}
+
+function _FamilyColumn({ side, father, mother, title, fullName }: FamilyColumnProps) {
+  return (
+    <div className="bg-white rounded-[24px] p-5 sm:p-6 flex flex-col items-center sm:items-start text-center sm:text-left border border-[#D4AF37]/20 shadow-sm relative overflow-hidden">
+      {/* Subtle floral/elegant watermark in background */}
+      <div 
+        className="absolute -right-6 -bottom-6 w-24 h-24 opacity-5 pointer-events-none"
+        style={{ backgroundImage: 'url(/assets/images/floral-v3-removebg-preview.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}
+      />
+      
+      <h3 className="font-sans font-bold text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-4 relative z-10">
+        {side}
+      </h3>
+      
+      <div className="space-y-1.5 font-sans text-[12px] sm:text-[14px] text-[#1D1D1F] mb-6 relative z-10">
+        <p className="font-medium text-[#86868B]">
+          Ông <span className="font-bold text-[#1D1D1F]">{father}</span>
+        </p>
+        <p className="font-medium text-[#86868B]">
+          Bà <span className="font-bold text-[#1D1D1F]">{mother}</span>
+        </p>
+      </div>
+
+      <div className="mt-auto relative z-10">
+        <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#86868B] mb-1">
+          {title}
+        </p>
+        <h4 className="text-[28px] sm:text-[34px] lg:text-[40px] font-script text-[#1D1D1F] leading-[1.1] whitespace-nowrap">
+          {fullName}
+        </h4>
+      </div>
+    </div>
   );
 }
