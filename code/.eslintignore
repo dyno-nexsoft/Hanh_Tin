@@ -1,0 +1,7 @@
+scripts/*
+components/layout/WeddingPage.tsx
+components/sections/WishList.tsx
+components/shared/CommentSheet.tsx
+components/shared/Typewriter.tsx
+lib/hooks/useCountdown.ts
+next.config.js
